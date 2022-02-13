@@ -34,6 +34,17 @@ int main(){
     }
     printf("Binding successful.\n");
 
+    //server listening for clients
+    int listenStatus;
+    listenStatus = listen(listeningSocket, 5);
+    if(listenStatus == -1){
+        perror("Listening failed!");
+    }
+
+    printf("Waiting(Listening) for clients....\n");
+
+
+
 
 
     return 0;
