@@ -43,6 +43,13 @@ int main(){
 
     printf("Waiting(Listening) for clients....\n");
 
+    //accept an incoming client connection
+    int serverSocket;
+    serverSocket = accept(listeningSocket, NULL, NULL);
+    if(serverSocket == -1){
+        perror("accept() call failed!");
+    }
+    printf("Connection accepted\n");
 
 
 
