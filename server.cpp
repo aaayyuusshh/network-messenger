@@ -67,7 +67,7 @@ int main(){
     sprintf(sendMsg, "Hey client, you said, %s", recieveMsg);
     int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
     if(sendStatus == -1){
-        perror("Server can't send to client");
+        perror("Server can't send to client"); 
 
     }
 
