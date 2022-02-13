@@ -37,7 +37,8 @@ int main(){
     //send
     char sendMsg[1000];
     printf("Enter your message to server: ");
-    scanf("%s", sendMsg);
+    fgets(sendMsg, sizeof(sendMsg), stdin);
+    sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
 
     int sendStatus= send(clientSocket, sendMsg, strlen(sendMsg), 0);
     if(sendStatus== -1){
@@ -56,6 +57,6 @@ int main(){
 
 
     close(clientSocket); //close socket
-    
+
     return 0;
 }
