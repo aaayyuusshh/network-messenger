@@ -49,7 +49,7 @@ int main(){
     if(serverSocket == -1){
         perror("accept() call failed!");
     }
-    printf("Connection accepted\n");
+    printf("--- CONNECTION ACCEPTED ---\n");
 
     //recieve message from client & send message to client
 
@@ -57,7 +57,7 @@ int main(){
     char recieveMsg[1000] ="";
     int recieveStatus= recv(serverSocket, recieveMsg, 1000, 0);
     if(recieveStatus == -1){
-        perror("Sever can't receive from client");
+        perror("Sever cannot receive from client!");
         //break;
     }
     printf("From Client: %s\n", recieveMsg);
@@ -67,7 +67,7 @@ int main(){
     sprintf(sendMsg, "Hey client, you said, %s", recieveMsg);
     int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
     if(sendStatus == -1){
-        perror("Server can't send to client"); 
+        perror("Server cannot send to client!"); 
 
     }
 

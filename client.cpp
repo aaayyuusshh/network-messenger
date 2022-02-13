@@ -41,10 +41,18 @@ int main(){
 
     int sendStatus= send(clientSocket, sendMsg, strlen(sendMsg), 0);
     if(sendStatus== -1){
-        perror("send() from client failed!");
+        perror("Client cannot send to server!");
         return 1;
     }
 
+    //recieve
+    char recieveMsg[1000]="";
+    int recieveStatus= recv(clientSocket, recieveMsg, 1000,0 );
+    if(recieveStatus == -1){
+        perror("Client cannot recieve from server!");
+        //break;
+    }
+    printf("Server says: %s\n", recieveMsg);
 
 
     return 0;
