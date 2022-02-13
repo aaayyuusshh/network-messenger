@@ -24,6 +24,16 @@ int main(){
         perror("Client socket creation failed!");
     }
 
+    //send connection request to the server 
+    int connectionRequest;
+    connectionRequest= connect(clientSocket, (struct sockaddr*)&address, sizeof(address));
+    if(connectionRequest == -1){
+        perror("Connection request failed!");
+        return 1;
+    }
+
+
+
 
     return 0;
 }
