@@ -17,6 +17,13 @@ int main(){
     address.sin_port= htons(7000);
     address.sin_addr.s_addr = INADDR_ANY;
 
+    //socket creation
+    int clientSocket;
+    clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if(clientSocket == -1){
+        perror("Client socket creation failed!");
+    }
+
 
     return 0;
 }
