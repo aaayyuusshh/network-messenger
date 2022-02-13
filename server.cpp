@@ -71,5 +71,9 @@ int main(){
 
     }
 
+    //closing sockets when done
+    close(serverSocket);
+    close(listeningSocket);
+
     return 0;
 }

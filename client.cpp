@@ -55,5 +55,7 @@ int main(){
     printf("Server says: %s\n", recieveMsg);
 
 
+    close(clientSocket); //close socket
+    
     return 0;
 }
