@@ -25,5 +25,16 @@ int main(){
     }
     printf("Listening socket created.\n");
 
+    //binding address w/ listening socket
+    int bindStatus;
+    bindStatus= bind(listeningSocket, (struct sockaddr *)&address, sizeof(address));
+    if(bindStatus == -1){
+        perror("Binding failed!");
+        return 1;
+    }
+    printf("Binding successful.\n");
+
+
+
     return 0;
 }
