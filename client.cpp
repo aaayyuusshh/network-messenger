@@ -32,6 +32,18 @@ int main(){
         return 1;
     }
 
+    //send message to server & recieve message from server
+
+    //send
+    char sendMsg[1000];
+    printf("Enter your message to server: ");
+    scanf("%s", sendMsg);
+
+    int sendStatus= send(clientSocket, sendMsg, strlen(sendMsg), 0);
+    if(sendStatus== -1){
+        perror("send() from client failed!");
+        return 1;
+    }
 
 
 
