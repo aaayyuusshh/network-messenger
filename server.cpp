@@ -51,8 +51,16 @@ int main(){
     }
     printf("Connection accepted\n");
 
+    //recieve message from client & send message to client
 
-
+    //recieve
+    char recieveMsg[1000] ="";
+    int recieveStatus= recv(serverSocket, recieveMsg, 1000, 0);
+    if(recieveStatus == -1){
+        perror("Sever can't receive from client");
+        //break;
+    }
+    printf("From Client: %s\n", recieveMsg);
 
     return 0;
 }
