@@ -62,5 +62,14 @@ int main(){
     }
     printf("From Client: %s\n", recieveMsg);
 
+     //send
+    char sendMsg[1000]="";
+    sprintf(sendMsg, "Hey client, you said, %s", recieveMsg);
+    int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
+    if(sendStatus == -1){
+        perror("Server can't send to client");
+
+    }
+
     return 0;
 }
