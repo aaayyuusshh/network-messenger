@@ -7,6 +7,7 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
+int flag= 1;
 
 int main(){
 
@@ -83,18 +84,3 @@ int main(){
     return 0;
 }
 
-
-
-/**
- * 
- * send the clients desired selection to the server!
- * 
- * desired selection = 1 
- * 
- * the only roadblock i am stuck on rn is how to differentiate between meu option 1 &
- * 
- * 
- * 
- * 
- * 
- **/

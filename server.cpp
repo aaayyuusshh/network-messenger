@@ -7,6 +7,8 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
+int flag = 1; //1= devowel, 2= envowel
+
 int main(){
 
     //address initialization
@@ -52,6 +54,16 @@ int main(){
 
     //recieve message from client & send message to client
 
+    //envowel: requires 1 input, send 2
+    if(flag == 1){
+
+    }
+
+    //envowel: requires 2 input, send 1
+    else{
+
+    }
+
     //recieve
     char recieveMsg[1000] ="";
     int recieveStatus= recv(serverSocket, recieveMsg, 1000, 0);
@@ -87,7 +99,6 @@ int main(){
         perror("Server cannot send to client!"); 
 
     }
-
 
     //closing sockets when done
     close(serverSocket);

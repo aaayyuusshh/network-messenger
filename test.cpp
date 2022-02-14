@@ -14,23 +14,14 @@ int main(){
      *  non-vowels= "H ll  th r !"
      * */
 
-    //will only work for inputs without a space!
+    /* SIMPLE ENCRYPTION ALGORITHM */
 
-    //SIMPLE ENCRYPTION ALGORITHM
     while(1) {
         char input[1000] = "";
 
-        printf("Enter message you want to encrpt: ");
+        printf("Enter message you want to encrpt:");
         fgets(input, sizeof(input), stdin);
         input[strcspn(input, "\n")] = 0;
-
-        /*          0123456789
-            input= "HelloThere", length = 10
-
-            vowels = " e  o  e e"
-            nonv   = "H ll Th r !"
-
-        */
 
         int length= strlen(input);
 
@@ -55,16 +46,34 @@ int main(){
         printf("Non Vowels:%s\n", nonVowels);
         printf("Vowels:    %s\n", vowels);
 
+    /* SIMPLE DECRYPTION ALGORITHM  */
+
+        char nonVowels2[1000];
+        printf("Enter the non-vowels:");
+        fgets(nonVowels2, sizeof(nonVowels2), stdin);
+
+        char vowels2[1000];
+        printf("Enter the vowels:");
+        fgets(vowels2, sizeof(vowels2), stdin);
+
+        int len= strlen(nonVowels2);
+
+        char decrypted[len];
+
+        for(int j=0; j< len; j++){
+            if(vowels2[j] == ' '){
+                decrypted[j] = nonVowels2[j];
+            }
+
+            else if(vowels2[j] != ' '){
+                decrypted[j] = vowels2[j];
+            }
+        }
+        printf("Decrypted:%s\n", decrypted);
     }
 
-    //SIMPLE DECRYPTION ALGO
 
-    char vowels2[]=     "H ll  th r !";
-    char nonVowels2[]=  " e  o   e e "
-
-
-
-    // //get input
+    /* GET INPUT */
     // char sendMsg[1000];
     // printf("Enter your message to server: ");
     // fgets(sendMsg, sizeof(sendMsg), stdin);
