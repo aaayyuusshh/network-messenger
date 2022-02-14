@@ -7,7 +7,6 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
-
 int main(){
 
     //address initialization
@@ -62,14 +61,33 @@ int main(){
     }
     printf("From Client: %s\n", recieveMsg);
 
-     //send
+    //recieve 2
+    char recieveMsg2[1000] ="";
+    int recieveStatus2= recv(serverSocket, recieveMsg2, 1000, 0);
+    if(recieveStatus2 == -1){
+        perror("Sever cannot receive from client!");
+        //break;
+    }
+     printf("From Client 2: %s\n", recieveMsg2);
+    
+    //send  1 
     char sendMsg[1000]="";
-    sprintf(sendMsg, "Hey client, you said, %s", recieveMsg);
+    sprintf(sendMsg, "Hey client, you said 1, %s", recieveMsg);
     int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
     if(sendStatus == -1){
         perror("Server cannot send to client!"); 
 
     }
+
+     //send 2
+    char sendMsg2[1000]="";
+    sprintf(sendMsg2, "Hey client, you said 2, %s", recieveMsg2);
+    int sendStatus2= send(serverSocket, sendMsg2, strlen(sendMsg), 0);
+    if(sendStatus2 == -1){
+        perror("Server cannot send to client!"); 
+
+    }
+
 
     //closing sockets when done
     close(serverSocket);

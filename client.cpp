@@ -34,7 +34,7 @@ int main(){
 
     //send message to server & recieve message from server
 
-    //send
+    //send 1
     char sendMsg[1000];
     printf("Enter your message to server: ");
     fgets(sendMsg, sizeof(sendMsg), stdin);
@@ -46,7 +46,19 @@ int main(){
         return 1;
     }
 
-    //recieve
+    //send 2
+    char sendMsg2[1000];
+    printf("Enter your message to server 2: ");
+    fgets(sendMsg2, sizeof(sendMsg2), stdin);
+    sendMsg2[strcspn(sendMsg2, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
+
+    int sendStatus2= send(clientSocket, sendMsg2, strlen(sendMsg2), 0);
+    if(sendStatus2== -1){
+        perror("Client cannot send to server!");
+        return 1;
+    }
+
+    //recieve 1
     char recieveMsg[1000]="";
     int recieveStatus= recv(clientSocket, recieveMsg, 1000,0 );
     if(recieveStatus == -1){
@@ -54,9 +66,35 @@ int main(){
         //break;
     }
     printf("Server says: %s\n", recieveMsg);
+    
+
+     //recieve 2
+    char recieveMsg2[1000]="";
+    int recieveStatus2= recv(clientSocket, recieveMsg2, 1000,0 );
+    if(recieveStatus2 == -1){
+        perror("Client cannot recieve from server!");
+        //break;
+    }
+    printf("Server says 2: %s\n", recieveMsg2);
 
 
     close(clientSocket); //close socket
 
     return 0;
 }
+
+
+
+/**
+ * 
+ * send the clients desired selection to the server!
+ * 
+ * desired selection = 1 
+ * 
+ * the only roadblock i am stuck on rn is how to differentiate between meu option 1 &
+ * 
+ * 
+ * 
+ * 
+ * 
+ **/
