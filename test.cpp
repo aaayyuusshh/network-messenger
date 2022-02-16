@@ -14,10 +14,14 @@ int main(){
      *  non-vowels= "H ll  th r !"
      * */
 
-    /* SIMPLE ENCRYPTION ALGORITHM */
+    int simple = 0;
 
-    while(1) {
+    while(simple == 1) {
+
+        /* SIMPLE ENCRYPTION ALGORITHM */
         char input[1000] = "";
+
+        printf("-- SIMPLE ENCRYPTION --\n");
 
         printf("Enter message you want to encrpt:");
         fgets(input, sizeof(input), stdin);
@@ -46,8 +50,8 @@ int main(){
         printf("Non Vowels:%s\n", nonVowels);
         printf("Vowels:    %s\n", vowels);
 
-    /* SIMPLE DECRYPTION ALGORITHM  */
-
+        /* SIMPLE DECRYPTION ALGORITHM  */
+        printf("\n-- SIMPLE DECRYPTION --\n");
         char nonVowels2[1000];
         printf("Enter the non-vowels:");
         fgets(nonVowels2, sizeof(nonVowels2), stdin);
@@ -70,6 +74,50 @@ int main(){
             }
         }
         printf("Decrypted:%s\n", decrypted);
+    }
+
+    if(simple == 0){
+
+        char input[] = "Hello There!";
+
+        /* ADVANCED ENCRYPTION ALGORITHM */
+        int length = strlen(input);
+
+        // int vowelCount, nonVowelCount;
+        // for(int i=0; i< length; i++){
+            
+        // }
+
+        char vowels[length];
+        char nonVowels[length];
+
+        int nonVowelIndex = 0 , vowelIndex= 0;
+        int recentVowel = -1;
+
+        for(int i=0; i< length; i++){
+
+            //vowels
+            if(input[i] == 'a' || input[i] == 'e' || input[i] == 'i' || input[i] == 'o' || input[i] == 'u'
+               || input[i] == 'A' || input[i] == 'E' || input[i] == 'I' || input[i] == 'O' || input[i] == 'U'){
+
+                   int gap = (i-1) - recentVowel;
+                   char charGap = gap +'0';
+
+                   vowels[vowelIndex++] = charGap;
+                   vowels[vowelIndex++] = input[i];
+
+                   recentVowel = i;
+            }
+
+            //non vowels
+            else{
+
+                nonVowels[nonVowelIndex++] = input[i];
+            }
+        }
+        
+        printf("Non Vowels:%s\n", nonVowels);
+        printf("Vowels:    %s\n", vowels);
     }
 
 
