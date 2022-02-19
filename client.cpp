@@ -15,7 +15,7 @@ int main(){
     struct sockaddr_in address;
     memset(&address, 0, sizeof(address));
     address.sin_family= AF_INET;
-    address.sin_port= htons(8000);
+    address.sin_port= htons(7000);
     address.sin_addr.s_addr = INADDR_ANY;
 
     //socket creation
@@ -72,6 +72,25 @@ int main(){
         }
 
         //2 = envowel
+        else if(option ==2){
+
+            //get and send non-vowels
+            char nonVowels[1000];
+            printf("Enter the non-vowels:");
+            fgets(nonVowels, sizeof(nonVowels), stdin);
+            nonVowels[strcspn(nonVowels, "\n")] = 0;
+
+            send(clientSocket, nonVowels, strlen(nonVowels),0);
+
+            //get and send vowels
+            char vowels[1000];
+            printf("Enter the vowels:");
+            fgets(vowels, sizeof(vowels), stdin);
+            vowels[strcspn(vowels, "\n")] = 0;
+
+            send(clientSocket, vowels, strlen(vowels),0);
+
+        }
 
     }
         

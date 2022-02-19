@@ -7,7 +7,11 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
+/* GLOBAL VARIABLES */
+
+//constants
 int ENCODING_TYPE_FlAG;
+
 int listeningSocket;
 int serverSocket;
 
@@ -35,17 +39,27 @@ void simpleDevowel(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
         }
     }
 
+    vowels[length] = '\0';
+    nonVowels[length]= '\0';
+
     printf("Non Vowels:%s\n", nonVowels);
     printf("Vowels:    %s\n", vowels);
 
     send(serverSocket, nonVowels, strlen(nonVowels), 0);
 
-    usleep(200);
+    usleep(20);
     
     send(serverSocket, vowels, strlen(vowels), 0);
 
 }
 
+//simple envowling
+void simpleEnvowel(char clientMessage[]){
+
+    
+
+
+}
 
 int main(){
 
@@ -53,7 +67,7 @@ int main(){
     struct sockaddr_in address;
     memset(&address,0, sizeof(address));
     address.sin_family= AF_INET;
-    address.sin_port= htons(8000);
+    address.sin_port= htons(7000);
     address.sin_addr.s_addr= INADDR_ANY;
 
      //listening socket creation
@@ -113,7 +127,23 @@ int main(){
         }
 
         //2= envowel
-        
+        else if(option ==2){
+
+            char nonVowels[1000]="";
+            char vowels[1000]="";
+          
+            //recieve nonvowels from client
+            recv(serverSocket, nonVowels, 1000, 0);
+            printf("Non Vowels from client: %s\n", nonVowels);
+
+            usleep(20);
+
+            //recieve vowels from client
+            recv(serverSocket, vowels, 1000, 0);
+            printf("Vowels from client: %s\n", vowels);
+
+        }
+
     }
 
     //closing sockets when done
