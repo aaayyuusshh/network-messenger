@@ -15,7 +15,7 @@ int main(){
     struct sockaddr_in address;
     memset(&address, 0, sizeof(address));
     address.sin_family= AF_INET;
-    address.sin_port= htons(7000);
+    address.sin_port= htons(8000);
     address.sin_addr.s_addr = INADDR_ANY;
 
     //socket creation
@@ -33,30 +33,42 @@ int main(){
         return 1;
     }
 
-    //send message to server & recieve message from server
-
+    /* SEND // RECIEVE */
     while(1){
-        //send 
+        //recieve user input regarding options
         char sendMsg[1000];
-        printf("Enter your message to server: ");
+        printf("1(Devowel) , 2(Envowel), 3(Quit)?: ");
         fgets(sendMsg, sizeof(sendMsg), stdin);
         sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
+        int option = sendMsg[0] - '0';
 
+        //send desired user option to client
         int sendStatus= send(clientSocket, sendMsg, strlen(sendMsg), 0);
         if(sendStatus== -1){
             perror("Client cannot send to server!");
             return 1;
         }
-        
-        //recieve
-        char recieveMsg[1000]="";
-        int recieveStatus= recv(clientSocket, recieveMsg, 1000,0 );
-        if(recieveStatus == -1){
-            perror("Client cannot recieve from server!");
-            //break;
+
+        //1 = devowel
+        if(option == 1){
+            char toDevowel[1000];
+            printf("Enter your message to devowel: ");
+            fgets(toDevowel, sizeof(toDevowel), stdin);
+
+            send(clientSocket, toDevowel, strlen(toDevowel), 0);
         }
-        printf("Server says: %s\n", recieveMsg);
-        
+
+        //recieve 1
+        char recieveMsg1[1000]="";
+        recv(clientSocket, recieveMsg1, 1000,0 );
+        printf("Server says 1: %s\n", recieveMsg1);
+
+        //recieve 2
+        char recieveMsg2[1000]="";
+        recv(clientSocket, recieveMsg2, 1000,0 );
+        printf("Server says 2: %s\n", recieveMsg2);
+
+
     }
         
 

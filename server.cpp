@@ -17,9 +17,7 @@ void simpleDevowel(char clientMessage[]){
 
 
 
-
 }
-
 
 
 int main(){
@@ -28,7 +26,7 @@ int main(){
     struct sockaddr_in address;
     memset(&address,0, sizeof(address));
     address.sin_family= AF_INET;
-    address.sin_port= htons(7000);
+    address.sin_port= htons(8000);
     address.sin_addr.s_addr= INADDR_ANY;
 
      //listening socket creation
@@ -64,24 +62,43 @@ int main(){
     }
     printf("--- CONNECTION ACCEPTED ---\n");
 
-    //recieve message from client & send message to client
+     /* SEND // RECIEVE */
+
     int recieveStatus;
     char recieveMsg[1000]="";
-    //recieve
+    //recieving clients option: 1, 2 or 3
     while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
-        printf("From Client: %s\n", recieveMsg);
+        printf("Clients option %s\n", recieveMsg);
 
-        //send  
-        char sendMsg[1000]="";
-        sprintf(sendMsg, "Hey client, you said 1, %s", recieveMsg);
-        int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
-        if(sendStatus == -1){
-            perror("Server cannot send to client!"); 
 
+        // //send  
+        // char sendMsg[1000]="";
+        // sprintf(sendMsg, "Hey client, you said 1, %s", recieveMsg);
+        // int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
+        // if(sendStatus == -1){
+        //     perror("Server cannot send to client!"); 
+
+        // }
+
+        int option = recieveMsg[0] - '0';
+
+        //1= devowel
+        if(option == 1){
+
+            char toDevowel[1000]="";
+            recv(serverSocket, toDevowel, 1000, 0);
+            printf("You said %s\n", toDevowel);
+
+            send(serverSocket, "vowels", strlen("vowels"), 0);
+            send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
+
+            //simpleDevowel(toDevowel);
         }
-    
+
+        //2= envowel
     }
-        
+
+
     //closing sockets when done
     close(serverSocket);
     close(listeningSocket);
