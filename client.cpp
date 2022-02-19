@@ -54,19 +54,22 @@ int main(){
             char toDevowel[1000];
             printf("Enter your message to devowel: ");
             fgets(toDevowel, sizeof(toDevowel), stdin);
+            toDevowel[strcspn(toDevowel, "\n")] = 0;
 
             send(clientSocket, toDevowel, strlen(toDevowel), 0);
+
+            //recieve 1
+            char recieveMsg1[1000]="";
+
+            recv(clientSocket, recieveMsg1, 1000,0 );
+            printf("Server sent non-vowels:%s\n", recieveMsg1);
+
+            bzero(recieveMsg1, sizeof(recieveMsg1));
+
+            //recieve 2
+            recv(clientSocket, recieveMsg1, 1000,0 );
+            printf("Server sent vowels:    %s\n", recieveMsg1);
         }
-
-        // //recieve 1
-        // char recieveMsg1[1000]="";
-        // recv(clientSocket, recieveMsg1, 1000,0 );
-        // printf("Server says 1: %s\n", recieveMsg1);
-
-        // //recieve 2
-        // char recieveMsg2[1000]="";
-        // recv(clientSocket, recieveMsg2, 1000,0 );
-        // printf("Server says 2: %s\n", recieveMsg2);
 
         //2 = envowel
 

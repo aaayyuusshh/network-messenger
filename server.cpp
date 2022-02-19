@@ -38,7 +38,11 @@ void simpleDevowel(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     printf("Non Vowels:%s\n", nonVowels);
     printf("Vowels:    %s\n", vowels);
 
+    send(serverSocket, nonVowels, strlen(nonVowels), 0);
 
+    usleep(200);
+    
+    send(serverSocket, vowels, strlen(vowels), 0);
 
 }
 
@@ -91,17 +95,7 @@ int main(){
     char recieveMsg[1000]="";
     //recieving clients option: 1, 2 or 3
     while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
-        printf("Clients option %s\n", recieveMsg);
-
-
-        // //send  
-        // char sendMsg[1000]="";
-        // sprintf(sendMsg, "Hey client, you said 1, %s", recieveMsg);
-        // int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
-        // if(sendStatus == -1){
-        //     perror("Server cannot send to client!"); 
-
-        // }
+        printf("Clients option: %s\n", recieveMsg);
 
         int option = recieveMsg[0] - '0';
 
@@ -110,7 +104,7 @@ int main(){
 
             char toDevowel[1000]="";
             recv(serverSocket, toDevowel, 1000, 0);
-            printf("You said %s\n", toDevowel);
+            printf("Client's message: %s\n", toDevowel);
 
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
@@ -119,8 +113,8 @@ int main(){
         }
 
         //2= envowel
+        
     }
-
 
     //closing sockets when done
     close(serverSocket);
