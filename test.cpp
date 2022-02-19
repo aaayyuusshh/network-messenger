@@ -80,13 +80,17 @@ int main(){
 
         char input[] = "Hello There!";
 
-        /* ADVANCED ENCRYPTION ALGORITHM */
+        /** ADVANCED ENCRYPTION ALGORITHM 
+         * limitations:
+         * - allocating too much space for vowel and non vowel arrays so the unused indexes will be filled w/ junk
+         * - will not work if gap >= 10 (bc -"0" only works for 0-9 and i haven't implemented %10 trick)
+         * */
         int length = strlen(input);
 
-        // int vowelCount, nonVowelCount;
-        // for(int i=0; i< length; i++){
-            
-        // }
+        //for exact memory allocation
+        int vowelCount, nonVowelCount;
+        for(int i=0; i< length; i++){       
+        }
 
         char vowels[length];
         char nonVowels[length];
@@ -115,16 +119,19 @@ int main(){
                 nonVowels[nonVowelIndex++] = input[i];
             }
         }
+
+        nonVowels[nonVowelIndex]='\0';
+        vowels[vowelIndex]= '\0';
         
         printf("Non Vowels:%s\n", nonVowels);
         printf("Vowels:    %s\n", vowels);
-    }
 
+    }
 
     /* GET INPUT */
     // char sendMsg[1000];
     // printf("Enter your message to server: ");
-    // fgets(sendMsg, sizeof(sendMsg), stdin);
+    // fgets( `sendMsg, sizeof(sendMsg), stdin);
     // printf("size of sendMsg= %lu \n", sizeof(sendMsg));
     // printf("sendMsg: %s \n", sendMsg);
     // printf("sizeof of sendMsg= %lu \n", sizeof(sendMsg));
