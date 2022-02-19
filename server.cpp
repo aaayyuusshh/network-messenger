@@ -64,42 +64,22 @@ int main(){
 
     }
 
-    //recieve
+    int recieveStatus;
     char recieveMsg[1000] ="";
-    int recieveStatus= recv(serverSocket, recieveMsg, 1000, 0);
-    if(recieveStatus == -1){
-        perror("Sever cannot receive from client!");
-        //break;
+    while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
+        //recieve
+        printf("From Client: %s\n", recieveMsg);
+
+        //send  
+        char sendMsg[1000]="";
+        sprintf(sendMsg, "Hey client, you said 1, %s", recieveMsg);
+        int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
+        if(sendStatus == -1){
+            perror("Server cannot send to client!"); 
+
+        }
     }
-    printf("From Client: %s\n", recieveMsg);
-
-    //recieve 2
-    char recieveMsg2[1000] ="";
-    int recieveStatus2= recv(serverSocket, recieveMsg2, 1000, 0);
-    if(recieveStatus2 == -1){
-        perror("Sever cannot receive from client!");
-        //break;
-    }
-     printf("From Client 2: %s\n", recieveMsg2);
-    
-    //send  1 
-    char sendMsg[1000]="";
-    sprintf(sendMsg, "Hey client, you said 1, %s", recieveMsg);
-    int sendStatus= send(serverSocket, sendMsg, strlen(sendMsg), 0);
-    if(sendStatus == -1){
-        perror("Server cannot send to client!"); 
-
-    }
-
-     //send 2
-    char sendMsg2[1000]="";
-    sprintf(sendMsg2, "Hey client, you said 2, %s", recieveMsg2);
-    int sendStatus2= send(serverSocket, sendMsg2, strlen(sendMsg), 0);
-    if(sendStatus2 == -1){
-        perror("Server cannot send to client!"); 
-
-    }
-
+        
     //closing sockets when done
     close(serverSocket);
     close(listeningSocket);
