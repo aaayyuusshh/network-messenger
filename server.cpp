@@ -7,7 +7,20 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
-int flag = 1; //1= devowel, 2= envowel
+int ENCODING_TYPE_FlAG;
+int listeningSocket;
+int serverSocket;
+
+//simple devoweling
+//paramerts: clientMessage[] = letter to devowel that the client sent
+void simpleDevowel(char clientMessage[]){
+
+
+
+
+}
+
+
 
 int main(){
 
@@ -19,7 +32,7 @@ int main(){
     address.sin_addr.s_addr= INADDR_ANY;
 
      //listening socket creation
-    int listeningSocket;
+   
     listeningSocket= socket(AF_INET, SOCK_STREAM, 0);
     if(listeningSocket == -1){
         perror("Listening socket creation failed!");
@@ -45,7 +58,6 @@ int main(){
     printf("Waiting(Listening) for clients....\n");
 
     //accept an incoming client connection
-    int serverSocket;
     serverSocket = accept(listeningSocket, NULL, NULL);
     if(serverSocket == -1){
         perror("accept() call failed!");
@@ -53,21 +65,10 @@ int main(){
     printf("--- CONNECTION ACCEPTED ---\n");
 
     //recieve message from client & send message to client
-
-    //envowel: requires 1 input, send 2
-    if(flag == 1){
-
-    }
-
-    //envowel: requires 2 input, send 1
-    else{
-
-    }
-
     int recieveStatus;
-    char recieveMsg[1000] ="";
+    char recieveMsg[1000]="";
+    //recieve
     while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
-        //recieve
         printf("From Client: %s\n", recieveMsg);
 
         //send  
@@ -78,6 +79,7 @@ int main(){
             perror("Server cannot send to client!"); 
 
         }
+    
     }
         
     //closing sockets when done
