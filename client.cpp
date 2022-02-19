@@ -91,6 +91,12 @@ int main(){
 
             send(clientSocket, vowels, strlen(vowels),0);
 
+            //recieve decrypted message from server
+            char decryptedMsg[1000]="";
+            recv(clientSocket,decryptedMsg , sizeof(decryptedMsg),0 );
+            printf("Server sent decrypted message: \'%s\'\n", decryptedMsg);
+            printf("Length: %lu\n",strlen(decryptedMsg));
+
         }
 
         //3= quit
