@@ -58,20 +58,20 @@ int main(){
             send(clientSocket, toDevowel, strlen(toDevowel), 0);
         }
 
-        //recieve 1
-        char recieveMsg1[1000]="";
-        recv(clientSocket, recieveMsg1, 1000,0 );
-        printf("Server says 1: %s\n", recieveMsg1);
+        // //recieve 1
+        // char recieveMsg1[1000]="";
+        // recv(clientSocket, recieveMsg1, 1000,0 );
+        // printf("Server says 1: %s\n", recieveMsg1);
 
-        //recieve 2
-        char recieveMsg2[1000]="";
-        recv(clientSocket, recieveMsg2, 1000,0 );
-        printf("Server says 2: %s\n", recieveMsg2);
+        // //recieve 2
+        // char recieveMsg2[1000]="";
+        // recv(clientSocket, recieveMsg2, 1000,0 );
+        // printf("Server says 2: %s\n", recieveMsg2);
 
+        //2 = envowel
 
     }
         
-
     close(clientSocket); //close socket
 
     return 0;

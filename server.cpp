@@ -13,7 +13,30 @@ int serverSocket;
 
 //simple devoweling
 //paramerts: clientMessage[] = letter to devowel that the client sent
-void simpleDevowel(char clientMessage[]){
+void simpleDevowel(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
+    printf("-- SIMPLE ENCRYPTION --\n");
+    int length= strlen(clientMessage);
+
+    char vowels[length];                    
+    char nonVowels[length];
+
+    for(int i=0; i < length; i++){
+        
+        if(clientMessage[i] == 'a' || clientMessage[i] == 'e' || clientMessage[i] == 'i' || clientMessage[i] == 'o' || clientMessage[i] == 'u'
+            || clientMessage[i] == 'A' || clientMessage[i] == 'E' || clientMessage[i] == 'I' || clientMessage[i] == 'O' || clientMessage[i] == 'U'){
+
+            vowels[i] = clientMessage[i];
+            nonVowels[i]= ' ';
+        }
+
+        else{
+            nonVowels[i] = clientMessage[i];
+            vowels[i] = ' ';
+        }
+    }
+
+    printf("Non Vowels:%s\n", nonVowels);
+    printf("Vowels:    %s\n", vowels);
 
 
 
@@ -89,10 +112,10 @@ int main(){
             recv(serverSocket, toDevowel, 1000, 0);
             printf("You said %s\n", toDevowel);
 
-            send(serverSocket, "vowels", strlen("vowels"), 0);
-            send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
+            // send(serverSocket, "vowels", strlen("vowels"), 0);
+            // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
 
-            //simpleDevowel(toDevowel);
+            simpleDevowel(toDevowel);
         }
 
         //2= envowel
