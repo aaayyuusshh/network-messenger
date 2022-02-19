@@ -15,7 +15,7 @@ int main(){
     struct sockaddr_in address;
     memset(&address, 0, sizeof(address));
     address.sin_family= AF_INET;
-    address.sin_port= htons(7000);
+    address.sin_port= htons(8000);
     address.sin_addr.s_addr = INADDR_ANY;
 
     //socket creation
@@ -58,17 +58,18 @@ int main(){
 
             send(clientSocket, toDevowel, strlen(toDevowel), 0);
 
-            //recieve 1
-            char recieveMsg1[1000]="";
 
-            recv(clientSocket, recieveMsg1, 1000,0 );
-            printf("Server sent non-vowels:%s\n", recieveMsg1);
+            char recieveMsg[1000]="";
 
-            bzero(recieveMsg1, sizeof(recieveMsg1));
+            //recieve non vowels
+            recv(clientSocket, recieveMsg, 1000,0 );
+            printf("Server sent non-vowels:\'%s\'\n", recieveMsg);
 
-            //recieve 2
-            recv(clientSocket, recieveMsg1, 1000,0 );
-            printf("Server sent vowels:    %s\n", recieveMsg1);
+            bzero(recieveMsg, sizeof(recieveMsg));
+
+            //recieve vowels
+            recv(clientSocket, recieveMsg, 1000,0 );
+            printf("Server sent vowels:    \'%s\'\n", recieveMsg);
         }
 
        //2= decrypt (envowel)

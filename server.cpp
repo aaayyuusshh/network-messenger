@@ -42,8 +42,8 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     vowels[length] = '\0';
     nonVowels[length]= '\0';
 
-    printf("Non Vowels:%s\n", nonVowels);
-    printf("Vowels:    %s\n", vowels);
+    printf("Non Vowels:\'%s\'\n", nonVowels);
+    printf("Vowels:    \'%s\'\n", vowels);
 
     send(serverSocket, nonVowels, strlen(nonVowels), 0);
 
@@ -56,7 +56,27 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
 //simple decryption: envoweling
 void simpleDecrypt(char nonVowels[], char vowels[]){
 
-    
+    int length= strlen(nonVowels);
+
+    char decrypted[length];
+
+    for(int j=0; j< length; j++){
+        if(vowels[j] == ' '){
+            decrypted[j] = nonVowels[j];
+        }
+
+        else if(vowels[j] != ' '){
+            decrypted[j] = vowels[j];
+        }
+    }
+    decrypted[length] ='\0';
+    printf("Decrypted: \'%s\'\n", decrypted);
+    printf("Length: %lu\n",strlen(decrypted));
+
+
+    //send decrypted message to server
+     send(serverSocket, decrypted, strlen(decrypted), 0);
+
 
 
 }
@@ -67,7 +87,7 @@ int main(){
     struct sockaddr_in address;
     memset(&address,0, sizeof(address));
     address.sin_family= AF_INET;
-    address.sin_port= htons(7000);
+    address.sin_port= htons(8000);
     address.sin_addr.s_addr= INADDR_ANY;
 
      //listening socket creation
@@ -118,7 +138,7 @@ int main(){
 
             char toDevowel[1000]="";
             recv(serverSocket, toDevowel, 1000, 0);
-            printf("Client's message: %s\n", toDevowel);
+            printf("Client's message: \'%s\'\n", toDevowel);
 
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
@@ -134,13 +154,13 @@ int main(){
           
             //recieve nonvowels from client
             recv(serverSocket, nonVowels, 1000, 0);
-            printf("Non Vowels from client: %s\n", nonVowels);
+            printf("Non Vowels from client: \'%s\'\n", nonVowels);
 
             usleep(20);
 
             //recieve vowels from client
             recv(serverSocket, vowels, 1000, 0);
-            printf("Vowels from client: %s\n", vowels);
+            printf("Vowels from client: \'%s\'\n", vowels);
 
             simpleDecrypt(nonVowels, vowels);
 

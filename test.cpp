@@ -16,6 +16,7 @@ int main(){
 
     int simple = 1;
 
+    //SIMPLE
     while(simple == 1) {
 
         /* SIMPLE ENCRYPTION ALGORITHM */
@@ -79,6 +80,7 @@ int main(){
         printf("Decrypted:%s\n", decrypted);
     }
 
+    //ADVANCED
     if(simple == 0){
 
         char input[] = "Hello There!";
