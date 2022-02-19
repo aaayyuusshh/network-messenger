@@ -49,7 +49,7 @@ int main(){
             return 1;
         }
 
-        //1 = devowel
+       //1= encrypt (devowel)
         if(option == 1){
             char toDevowel[1000];
             printf("Enter your message to devowel: ");
@@ -71,7 +71,7 @@ int main(){
             printf("Server sent vowels:    %s\n", recieveMsg1);
         }
 
-        //2 = envowel
+       //2= decrypt (envowel)
         else if(option ==2){
 
             //get and send non-vowels
@@ -91,6 +91,8 @@ int main(){
             send(clientSocket, vowels, strlen(vowels),0);
 
         }
+
+        //3= quit
 
     }
         

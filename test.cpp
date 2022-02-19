@@ -14,7 +14,7 @@ int main(){
      *  non-vowels= "H ll  th r !"
      * */
 
-    int simple = 0;
+    int simple = 1;
 
     while(simple == 1) {
 
@@ -47,8 +47,11 @@ int main(){
             }
         }
 
-        printf("Non Vowels:%s\n", nonVowels);
-        printf("Vowels:    %s\n", vowels);
+        nonVowels[length]= '\0';
+        vowels[length]='\0';
+
+        printf("Non Vowels:\'%s\'\n", nonVowels);
+        printf("Vowels:    \'%s\'\n", vowels);
 
         /* SIMPLE DECRYPTION ALGORITHM  */
         printf("\n-- SIMPLE DECRYPTION --\n");

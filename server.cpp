@@ -15,9 +15,9 @@ int ENCODING_TYPE_FlAG;
 int listeningSocket;
 int serverSocket;
 
-//simple devoweling
+//simple encryption: devoweling
 //paramerts: clientMessage[] = letter to devowel that the client sent
-void simpleDevowel(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
+void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     printf("-- SIMPLE ENCRYPTION --\n");
     int length= strlen(clientMessage);
 
@@ -53,8 +53,8 @@ void simpleDevowel(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
 
 }
 
-//simple envowling
-void simpleEnvowel(char clientMessage[]){
+//simple decryption: envoweling
+void simpleDecrypt(char nonVowels[], char vowels[]){
 
     
 
@@ -113,7 +113,7 @@ int main(){
 
         int option = recieveMsg[0] - '0';
 
-        //1= devowel
+        //1= encrypt (devowel)
         if(option == 1){
 
             char toDevowel[1000]="";
@@ -123,10 +123,10 @@ int main(){
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
 
-            simpleDevowel(toDevowel);
+            simpleEncrypt(toDevowel);
         }
 
-        //2= envowel
+        //2= decrypt (envowel)
         else if(option ==2){
 
             char nonVowels[1000]="";
@@ -142,7 +142,12 @@ int main(){
             recv(serverSocket, vowels, 1000, 0);
             printf("Vowels from client: %s\n", vowels);
 
+            simpleDecrypt(nonVowels, vowels);
+
+
         }
+
+        //3= quit
 
     }
 
