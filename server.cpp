@@ -7,6 +7,11 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
+#include <stdlib.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+
+
 //reminder: non vowels: TCP, vowels: UDP
 
 /* GLOBAL VARIABLES */
@@ -16,6 +21,8 @@ int ENCODING_TYPE_FlAG;
 
 int listeningSocket;
 int serverSocket;
+int udpSocket;
+struct sockaddr_in udpServerAddr, udpClientAddr;
 
 //simple encryption: devoweling
 //paramerts: clientMessage[] = letter to devowel that the client sent
@@ -122,6 +129,33 @@ void setUpTCP(){
     }
     printf("--- CONNECTION ACCEPTED ---\n");
     
+}
+
+//set up udp socket (NOTE: UDP Is connectionless!)
+void setUpUDP(){
+
+    //creating udp socket file descriptor
+    if((udpSocket = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
+        perror("UPD socket creation failed!\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("UDP socket created.\n");
+
+    //memset to 0s
+    memset(&udpServerAddr, 0, sizeof(udpServerAddr));
+    memset(&udpClientAddr, 0, sizeof(udpClientAddr));
+
+    //address initialization for the UDP server
+    udpServerAddr.sin_family= AF_INET;  
+    udpServerAddr.sin_addr.s_addr = INADDR_ANY;
+    udpServerAddr.sin_port= htons(8000);
+
+    //bind the UDP socket with the UDP server address
+    if(bind(udpSocket, (const struct sockaddr *)&udpServerAddr, sizeof(udpServerAddr)) < 0){
+        printf("UDP binding failed!");
+        exit(EXIT_FAILURE);
+
+    }
 }
 
 int main(){
