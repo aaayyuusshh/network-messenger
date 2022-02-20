@@ -85,33 +85,42 @@ int main(){
             fgets(toDevowel, sizeof(toDevowel), stdin);
             toDevowel[strcspn(toDevowel, "\n")] = 0;
 
+            //sending word to devowel to the server using TCP
             send(clientSocket, toDevowel, strlen(toDevowel), 0);
 
+            usleep(10);
+
+            //first send jiberrish to server so it can identify the client address to send messages to
+            char *jibb = "For address identification purposes";
+            sendto(udpSocket, (const char *)jibb, strlen(jibb),0, (const struct sockaddr *) &udpServerAddr, sizeof(udpServerAddr));
 
             char recieveMsg[1000]="";
-
-            //recieve non vowels
+            
+            //recieve non vowels through tcp
             recv(clientSocket, recieveMsg, 1000,0 );
-            printf("Server sent non-vowels:\'%s\'\n", recieveMsg);
+            printf("Server sent non-vowels through TCP:\'%s\'\n", recieveMsg);
 
             bzero(recieveMsg, sizeof(recieveMsg));
 
-            //recieve vowels
-            recv(clientSocket, recieveMsg, 1000,0 );
-            printf("Server sent vowels:    \'%s\'\n", recieveMsg);
+            //recieve vowels through upd
+            // recv(clientSocket, recieveMsg, 1000,0 ); //TCP way
+            int len;
+            recvfrom(udpSocket, (char *)recieveMsg, 1000, 0, (struct sockaddr *)&udpServerAddr, (socklen_t *)&len);
+            printf("Server sent vowels through UDP:    \'%s\'\n", recieveMsg);
         }
 
        //2= decrypt (envowel)
         else if(option ==2){
 
-            //get and send non-vowels
+            //get and send non-vowels 
             char nonVowels[1000];
             printf("Enter the non-vowels:");
             fgets(nonVowels, sizeof(nonVowels), stdin);
             nonVowels[strcspn(nonVowels, "\n")] = 0;
 
+            //send non-vowels through UDP
             send(clientSocket, nonVowels, strlen(nonVowels),0);
-
+            
             //get and send vowels
             char vowels[1000];
             printf("Enter the vowels:");

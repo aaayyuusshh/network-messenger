@@ -54,11 +54,20 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     printf("Non Vowels:\'%s\'\n", nonVowels);
     printf("Vowels:    \'%s\'\n", vowels);
 
+    //recieving dummy message through UDP for client address purposes
+    char buffer[1000];
+    bzero(buffer, 1000);
+    int len= sizeof(udpClientAddr);
+    recvfrom(udpSocket, buffer, 1000, 0, (struct sockaddr *)&udpClientAddr, (socklen_t*)&len);
+
+    //send non-vowels to client through TCP
     send(serverSocket, nonVowels, strlen(nonVowels), 0);
 
     usleep(20);
     
-    send(serverSocket, vowels, strlen(vowels), 0);
+    //send vowels to client through UDP
+    //send(serverSocket, vowels, strlen(vowels), 0); //TCP way
+    sendto(udpSocket, vowels, strlen(vowels), 0, (const struct sockaddr *)&udpClientAddr, len);
 
 }
 
