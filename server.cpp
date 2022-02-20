@@ -14,10 +14,15 @@
 
 //reminder: non vowels: TCP, vowels: UDP
 
-/* GLOBAL VARIABLES */
+/* GLOBAL VARIABLES & CONSTANTS */
 
-//constants
-int ENCODING_TYPE_FlAG;
+const int ENCODING_TYPE_FLAG = 0;   //0: simple
+//const int ENCODING_TYPE_FLAG = 1;     //1: complex
+
+const char *SERVER_IP = "127.0.0.1";    
+// const char *SERVER_IP = "136.159.5.25";
+// const char *SERVER_IP = "136.159.5.27";
+
 
 int listeningSocket;
 int serverSocket;
@@ -95,6 +100,142 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
     //send decrypted message to server
     send(serverSocket, decrypted, strlen(decrypted), 0);
 
+}
+
+//advanced encryption: encryption
+void complexEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
+    printf("-- COMPLEX ENCRYPTION ALGORITHM TRIGGERED --\n");
+    int length= strlen(clientMessage);
+
+    char vowels[length];                    
+    char nonVowels[length];
+
+    for(int i=0; i < length; i++){
+        
+        if(clientMessage[i] == 'a' || clientMessage[i] == 'e' || clientMessage[i] == 'i' || clientMessage[i] == 'o' || clientMessage[i] == 'u'
+            || clientMessage[i] == 'A' || clientMessage[i] == 'E' || clientMessage[i] == 'I' || clientMessage[i] == 'O' || clientMessage[i] == 'U'){
+
+            vowels[i] = clientMessage[i];
+            nonVowels[i]= ' ';
+        }
+
+        else{
+            nonVowels[i] = clientMessage[i];
+            vowels[i] = ' ';
+        }
+    }
+
+    vowels[length] = '\0';
+    nonVowels[length]= '\0';
+
+    printf("Sent %lu bytes of non-vowels \'%s\' using TCP\n", strlen(nonVowels), nonVowels);
+    printf("Sent %lu bytes of vowels \'%s\' using UDP\n", strlen(vowels), vowels);
+   
+
+    //recieving dummy message through UDP for client address purposes
+    char buffer[1000];
+    bzero(buffer, 1000);
+    int len= sizeof(udpClientAddr);
+    recvfrom(udpSocket, buffer, 1000, 0, (struct sockaddr *)&udpClientAddr, (socklen_t*)&len);
+
+    //send non-vowels to client through TCP
+    send(serverSocket, nonVowels, strlen(nonVowels), 0);
+
+    usleep(20);
+    
+    //send vowels to client through UDP
+    //send(serverSocket, vowels, strlen(vowels), 0); //TCP way
+    sendto(udpSocket, vowels, strlen(vowels), 0, (const struct sockaddr *)&udpClientAddr, len);
+
+}
+
+//advanced encryption: devoweling
+void advancedEncrypt(char clientMessage[]){
+
+    int length = strlen(clientMessage);
+
+    //for exact memory allocation
+    int vowelCount, nonVowelCount;
+    for(int i=0; i< length; i++){       
+    }
+
+    char vowels[length];
+    char nonVowels[length];
+
+    int nonVowelIndex = 0 , vowelIndex= 0;
+    int recentVowel = -1;
+
+    for(int i=0; i< length; i++){
+
+        //vowels
+        if(clientMessage[i] == 'a' || clientMessage[i] == 'e' || clientMessage[i] == 'i' || clientMessage[i] == 'o' || clientMessage[i] == 'u'
+            || clientMessage[i] == 'A' || clientMessage[i] == 'E' || clientMessage[i] == 'I' || clientMessage[i] == 'O' || clientMessage[i] == 'U'){
+
+                int gap = (i-1) - recentVowel;
+                char charGap = gap +'0';
+
+                vowels[vowelIndex++] = charGap;
+                vowels[vowelIndex++] = clientMessage[i];
+
+                recentVowel = i;
+        }
+
+        //non vowels
+        else{
+
+            nonVowels[nonVowelIndex++] = clientMessage[i];
+        }
+    }
+
+    vowels[vowelIndex]= '\0';
+    nonVowels[nonVowelIndex]='\0';
+    
+    printf("Sent %lu bytes of non-vowels \'%s\' using TCP\n", strlen(nonVowels), nonVowels);
+    printf("Sent %lu bytes of vowels \'%s\' using UDP\n", strlen(vowels), vowels);
+   
+
+    //recieving dummy message through UDP for client address purposes
+    char buffer[1000];
+    bzero(buffer, 1000);
+    int len= sizeof(udpClientAddr);
+    recvfrom(udpSocket, buffer, 1000, 0, (struct sockaddr *)&udpClientAddr, (socklen_t*)&len);
+
+    //send non-vowels to client through TCP
+    send(serverSocket, nonVowels, strlen(nonVowels), 0);
+
+    usleep(20);
+    
+    //send vowels to client through UDP
+    //send(serverSocket, vowels, strlen(vowels), 0); //TCP way
+    sendto(udpSocket, vowels, strlen(vowels), 0, (const struct sockaddr *)&udpClientAddr, len);
+
+}
+
+//advanceddecryption: envoweling
+void advancedDecrypt(char nonVowels[], char vowels[]){
+    
+    char decrypted[strlen(vowels) + (strlen(nonVowels)/2)];
+    int toSkip = 0, decryptedIndex = 0, nonVowelsIndex = 0, vowelsIndex = 0;
+
+    for (int i = 0; i < strlen(nonVowels) + strlen(vowels); i++){
+        if (vowelsIndex < strlen(vowels)){
+            toSkip = vowels[vowelsIndex++] - '0'; 
+
+            for(int i=toSkip; i > 0; i--){
+                decrypted[decryptedIndex++] = nonVowels[nonVowelsIndex++];
+
+            }
+            decrypted[decryptedIndex++] = vowels[vowelsIndex++]; 
+        }
+        else {
+            decrypted[decryptedIndex++] = nonVowels[nonVowelsIndex++];
+        }
+    }
+
+    printf("Sent %lu bytes of decrypted message \'%s\' using TCP\n", strlen(decrypted),decrypted);
+   
+    //send decrypted message to server
+    send(serverSocket, decrypted, strlen(decrypted), 0);
 }
 
 //set up tcp socket
@@ -197,7 +338,14 @@ int main(){
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
 
-            simpleEncrypt(toDevowel);
+            if(ENCODING_TYPE_FLAG == 0){
+                simpleEncrypt(toDevowel);
+
+            }
+            else{
+                advancedEncrypt(toDevowel);
+
+            } 
         }
 
         //2= decrypt (envowel)
@@ -217,10 +365,22 @@ int main(){
             recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
             printf("Vowels from client: \'%s\'\n", vowels);
 
-            simpleDecrypt(nonVowels, vowels);
+             if(ENCODING_TYPE_FLAG == 0){
+                simpleDecrypt(nonVowels, vowels);
+
+            }
+            else{
+                advancedDecrypt(nonVowels, vowels);
+
+            } 
+
+           
         }
 
-        //3= quit
+        else{
+            printf("Server Ending...");
+            close(serverSocket);
+        }
 
     }
 

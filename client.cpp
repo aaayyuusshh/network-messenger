@@ -11,6 +11,12 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
+/* GLOBAL VARIABLES & CONSTANTS */
+
+const char *SERVER_IP = "127.0.0.1";        //local host
+// const char *SERVER_IP = "136.159.5.25";  //csx.cpsc.ucalgary.ca
+// const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
+
 struct sockaddr_in udpServerAddr;
 int clientSocket, udpSocket;
 
@@ -21,7 +27,7 @@ void setupTCP(){
     memset(&address, 0, sizeof(address));
     address.sin_family= AF_INET;
     address.sin_port= htons(8000);
-    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_addr.s_addr = inet_addr(SERVER_IP);
 
     //creating tcp socket file descriptor
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -52,7 +58,7 @@ void setupUDP(){
 
     //address initialization for the UDP client
     udpServerAddr.sin_family= AF_INET;  
-    udpServerAddr.sin_addr.s_addr = INADDR_ANY;
+    udpServerAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
     udpServerAddr.sin_port= htons(8000);
 
 }
@@ -142,12 +148,12 @@ int main(){
         
 
         }
-
-        /* TEST
-        'p l ndr m cs q  nc '
-        ' a i   o i  e ue  e' */
-
-        //3= quit
+        
+        else {
+            printf("Quitting Program...");
+            close(clientSocket);
+            break;
+        }
 
     }
         
