@@ -7,6 +7,8 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
+//reminder: non vowels: TCP, vowels: UDP
+
 /* GLOBAL VARIABLES */
 
 //constants
@@ -73,15 +75,13 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
     printf("Decrypted: \'%s\'\n", decrypted);
     printf("Length: %lu\n",strlen(decrypted));
 
-
     //send decrypted message to server
      send(serverSocket, decrypted, strlen(decrypted), 0);
 
-
-
 }
 
-int main(){
+//set up tcp socket
+void setUpTCP(){
 
     //address initialization
     struct sockaddr_in address;
@@ -103,7 +103,6 @@ int main(){
     bindStatus= bind(listeningSocket, (struct sockaddr *)&address, sizeof(address));
     if(bindStatus == -1){
         perror("Binding failed!");
-        return 1;
     }
     printf("Binding successful.\n");
 
@@ -122,8 +121,14 @@ int main(){
         perror("accept() call failed!");
     }
     printf("--- CONNECTION ACCEPTED ---\n");
+    
+}
 
-     /* SEND // RECIEVE */
+int main(){
+
+    setUpTCP();
+
+    /* SEND // RECIEVE */
 
     int recieveStatus;
     char recieveMsg[1000]="";
@@ -158,13 +163,11 @@ int main(){
 
             usleep(20);
 
-            //recieve vowels from client
+            //recieve vowels from client (through UPD)
             recv(serverSocket, vowels, 1000, 0);
             printf("Vowels from client: \'%s\'\n", vowels);
 
             simpleDecrypt(nonVowels, vowels);
-
-
         }
 
         //3= quit
