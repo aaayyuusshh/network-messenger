@@ -88,7 +88,7 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
 }
 
 //set up tcp socket
-void setUpTCP(){
+void setupTCP(){
 
     //address initialization
     struct sockaddr_in address;
@@ -132,7 +132,7 @@ void setUpTCP(){
 }
 
 //set up udp socket (NOTE: UDP Is connectionless!)
-void setUpUDP(){
+void setupUDP(){
 
     //creating udp socket file descriptor
     if((udpSocket = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
@@ -160,7 +160,10 @@ void setUpUDP(){
 
 int main(){
 
-    setUpTCP();
+    printf("Welcome to our vowelizer server (: \n");
+
+    setupTCP();
+    setupUDP();
 
     /* SEND // RECIEVE */
 

@@ -7,9 +7,14 @@
 #include<arpa/inet.h>
 #include<unistd.h>	
 
-int flag= 1;
+#include <stdlib.h>
+#include <sys/types.h>
+#include <netinet/in.h>
 
-int main(){
+struct sockaddr_in udpServerAddr;
+int clientSocket, udpSocket;
+
+void setupTCP(){
 
     //address initialization
     struct sockaddr_in address;
@@ -18,8 +23,7 @@ int main(){
     address.sin_port= htons(8000);
     address.sin_addr.s_addr = INADDR_ANY;
 
-    //socket creation
-    int clientSocket;
+    //creating tcp socket file descriptor
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if(clientSocket == -1){
         perror("Client socket creation failed!");
@@ -30,8 +34,33 @@ int main(){
     connectionRequest= connect(clientSocket, (struct sockaddr*)&address, sizeof(address));
     if(connectionRequest == -1){
         perror("Connection request failed!");
-        return 1;
+        exit(-1);
     }
+}
+
+void setupUDP(){
+
+    //creating udp socket file descriptor
+    if((udpSocket = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
+        perror("UPD socket creation failed!\n");
+        exit(EXIT_FAILURE);
+    }
+    printf("UDP socket created.\n");
+
+    //memset to 0s
+    memset(&udpServerAddr, 0, sizeof(udpServerAddr));
+
+    //address initialization for the UDP client
+    udpServerAddr.sin_family= AF_INET;  
+    udpServerAddr.sin_addr.s_addr = INADDR_ANY;
+    udpServerAddr.sin_port= htons(8000);
+
+}
+
+int main(){
+
+    setupTCP();
+    setupUDP();
 
     /* SEND // RECIEVE */
     while(1){
