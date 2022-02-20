@@ -27,7 +27,7 @@ struct sockaddr_in udpServerAddr, udpClientAddr;
 //simple encryption: devoweling
 //paramerts: clientMessage[] = letter to devowel that the client sent
 void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
-    printf("-- SIMPLE ENCRYPTION --\n");
+    printf("-- SIMPLE ENCRYPTION ALGORITHM TRIGGERED --\n");
     int length= strlen(clientMessage);
 
     char vowels[length];                    
@@ -51,8 +51,9 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     vowels[length] = '\0';
     nonVowels[length]= '\0';
 
-    printf("Non Vowels:\'%s\'\n", nonVowels);
-    printf("Vowels:    \'%s\'\n", vowels);
+    printf("Sent %lu bytes of non-vowels \'%s\' using TCP\n", strlen(nonVowels), nonVowels);
+    printf("Sent %lu bytes of vowels \'%s\' using UDP\n", strlen(vowels), vowels);
+   
 
     //recieving dummy message through UDP for client address purposes
     char buffer[1000];
@@ -73,6 +74,7 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
 
 //simple decryption: envoweling
 void simpleDecrypt(char nonVowels[], char vowels[]){
+    printf("-- SIMPLE DECRYPTION ALGORITHM TRIGGERED --\n");
 
     int length= strlen(nonVowels);
 
@@ -88,11 +90,10 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
         }
     }
     decrypted[length] ='\0';
-    printf("Decrypted: \'%s\'\n", decrypted);
-    printf("Length: %lu\n",strlen(decrypted));
+    printf("Sent %lu bytes of decrypted message \'%s\' using TCP\n", strlen(decrypted),decrypted);
 
     //send decrypted message to server
-     send(serverSocket, decrypted, strlen(decrypted), 0);
+    send(serverSocket, decrypted, strlen(decrypted), 0);
 
 }
 
@@ -129,14 +130,14 @@ void setupTCP(){
         perror("Listening failed!");
     }
 
-    printf("Waiting(Listening) for clients....\n");
+    printf("Waiting(Listening) for clients.....\n");
 
     //accept an incoming client connection
     serverSocket = accept(listeningSocket, NULL, NULL);
     if(serverSocket == -1){
         perror("accept() call failed!");
     }
-    printf("--- CONNECTION ACCEPTED ---\n");
+    printf("TCP Connection Accepted!\n");
     
 }
 
@@ -169,18 +170,20 @@ void setupUDP(){
 
 int main(){
 
-    printf("Welcome to our vowelizer server (: \n");
+    printf("\n~~ WELCOME TO THE SUPER SECRET VOWELIZER SERVER shhh... ~~\n");
+    printf("\n");
+    
 
     setupTCP();
     setupUDP();
 
-    /* SEND // RECIEVE */
-
+    /* SEND // RECIEVE MENU OPTIONS AND CALL FUNCTIONS ACCORDINGLY */
     int recieveStatus;
     char recieveMsg[1000]="";
     //recieving clients option: 1, 2 or 3
+
     while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
-        printf("Clients option: %s\n", recieveMsg);
+        printf("\nClient picked menu option: %s\n", recieveMsg);
 
         int option = recieveMsg[0] - '0';
 
@@ -189,7 +192,7 @@ int main(){
 
             char toDevowel[1000]="";
             recv(serverSocket, toDevowel, 1000, 0);
-            printf("Client's message: \'%s\'\n", toDevowel);
+            printf("Client's message to devowel: \'%s\'\n", toDevowel);
 
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
@@ -210,7 +213,8 @@ int main(){
             usleep(20);
 
             //recieve vowels from client (through UPD)
-            recv(serverSocket, vowels, 1000, 0);
+            /* recv(serverSocket, vowels, 1000, 0);*/ //TCP WAY
+            recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
             printf("Vowels from client: \'%s\'\n", vowels);
 
             simpleDecrypt(nonVowels, vowels);

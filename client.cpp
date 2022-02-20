@@ -45,7 +45,7 @@ void setupUDP(){
         perror("UPD socket creation failed!\n");
         exit(EXIT_FAILURE);
     }
-    printf("UDP socket created.\n");
+    //printf("UDP socket created.\n");
 
     //memset to 0s
     memset(&udpServerAddr, 0, sizeof(udpServerAddr));
@@ -59,6 +59,8 @@ void setupUDP(){
 
 int main(){
 
+    printf("\n~~ WELCOME! I AM A CLIENT FOR THE VOWELIZER ~~ \n");
+
     setupTCP();
     setupUDP();
 
@@ -66,7 +68,9 @@ int main(){
     while(1){
         //recieve user input regarding options
         char sendMsg[1000];
-        printf("1(Devowel) , 2(Envowel), 3(Quit)?: ");
+        printf("\nPlease choose from the following selections:\n");
+        printf("(1) Devowel?\n(2) Envowel?\n(3) Quit?\n");
+        printf("Enter your desired menu selection: ");
         fgets(sendMsg, sizeof(sendMsg), stdin);
         sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
         int option = sendMsg[0] - '0';
@@ -98,15 +102,15 @@ int main(){
             
             //recieve non vowels through tcp
             recv(clientSocket, recieveMsg, 1000,0 );
-            printf("Server sent non-vowels through TCP:\'%s\'\n", recieveMsg);
+            printf("Server sent %lu bytes of non-vowels using TCP: \'%s\'\n", strlen(recieveMsg),recieveMsg);
 
             bzero(recieveMsg, sizeof(recieveMsg));
 
             //recieve vowels through upd
-            // recv(clientSocket, recieveMsg, 1000,0 ); //TCP way
+            /* recv(clientSocket, recieveMsg, 1000,0 ); */ //TCP way
             int len;
             recvfrom(udpSocket, (char *)recieveMsg, 1000, 0, (struct sockaddr *)&udpServerAddr, (socklen_t *)&len);
-            printf("Server sent vowels through UDP:    \'%s\'\n", recieveMsg);
+            printf("Server sent %lu bytes of vowels using UDP:     \'%s\'\n", strlen(recieveMsg), recieveMsg);
         }
 
        //2= decrypt (envowel)
@@ -120,22 +124,28 @@ int main(){
 
             //send non-vowels through UDP
             send(clientSocket, nonVowels, strlen(nonVowels),0);
-            
+
             //get and send vowels
             char vowels[1000];
             printf("Enter the vowels:");
             fgets(vowels, sizeof(vowels), stdin);
             vowels[strcspn(vowels, "\n")] = 0;
 
-            send(clientSocket, vowels, strlen(vowels),0);
+            //send vowels through UDP
+            /*send(clientSocket, vowels, strlen(vowels),0);*/ //TCP Way
+            sendto(udpSocket, (const char *)vowels, strlen(vowels),0, (const struct sockaddr *) &udpServerAddr, sizeof(udpServerAddr));
 
             //recieve decrypted message from server
             char decryptedMsg[1000]="";
             recv(clientSocket,decryptedMsg , sizeof(decryptedMsg),0 );
-            printf("Server sent decrypted message: \'%s\'\n", decryptedMsg);
-            printf("Length: %lu\n",strlen(decryptedMsg));
+            printf("Server sent %lu bytes of decrypted message using TCP: \'%s\'\n",strlen(decryptedMsg),decryptedMsg);
+        
 
         }
+
+        /* TEST
+        'p l ndr m cs q  nc '
+        ' a i   o i  e ue  e' */
 
         //3= quit
 
