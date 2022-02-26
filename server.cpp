@@ -216,25 +216,28 @@ void advancedEncrypt(char clientMessage[]){
 }
 
 //advanced decryption: envoweling
-void advancedDecrypt(char nonVowels[], char vowels[]){
+void advancedDecrypt(char nonVowels2[], char vowels2[]){
     
-    char decrypted[strlen(vowels) + (strlen(nonVowels)/2)];
-    int toSkip = 0, decryptedIndex = 0, nonVowelsIndex = 0, vowelsIndex = 0;
-
-    for (int i = 0; i < strlen(nonVowels) + strlen(vowels); i++){
-        if (vowelsIndex < strlen(vowels)){
-            toSkip = vowels[vowelsIndex++] - '0'; 
-
-            for(int i=toSkip; i > 0; i--){
-                decrypted[decryptedIndex++] = nonVowels[nonVowelsIndex++];
-
-            }
-            decrypted[decryptedIndex++] = vowels[vowelsIndex++]; 
+    char decrypted[1000];
+    int vowelsLen= strlen(vowels2);
+    int decryptedIndex= 0, nonVowelsIndex= 0;
+    for(int i=0; i<vowelsLen; i++){
+        int curr= vowels2[i] - '0';
+        for(int j=0; j< curr; j++){
+            decrypted[decryptedIndex++] = nonVowels2[nonVowelsIndex++]; //add non-vowels 
         }
-        else {
-            decrypted[decryptedIndex++] = nonVowels[nonVowelsIndex++];
-        }
+        decrypted[decryptedIndex++]= vowels2[++i]; //add vowels
     }
+
+    /**
+     * in the case strlen(vowels) < strlen(nonvVowels.
+     * populating decrypted with remaining nonVowels. */
+    int idx= nonVowelsIndex;
+    for(int i=idx; i<strlen(nonVowels2);i++){
+        decrypted[decryptedIndex++]= nonVowels2[nonVowelsIndex++];
+    }   
+
+    decrypted[decryptedIndex] ='\0';
 
     printf("Sent %lu bytes of decrypted message \'%s\' using TCP\n", strlen(decrypted),decrypted);
    
