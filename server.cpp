@@ -11,18 +11,22 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
+/*
+CREDITS: 
+    - Bardia's tutorial notes + client/server code snippets
+    - https://en.cppreference.com/w/ 
+*/
 
 //reminder: non vowels: TCP, vowels: UDP
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
-const int ENCODING_TYPE_FLAG = 0;   //0: simple
-//const int ENCODING_TYPE_FLAG = 1;     //1: complex
+//const int ENCODING_TYPE_FLAG = 0;   //0: simple
+const int ENCODING_TYPE_FLAG = 1;     //1: complex
 
 const char *SERVER_IP = "127.0.0.1";    
 // const char *SERVER_IP = "136.159.5.25";
 // const char *SERVER_IP = "136.159.5.27";
-
 
 int listeningSocket;
 int serverSocket;
@@ -211,7 +215,7 @@ void advancedEncrypt(char clientMessage[]){
 
 }
 
-//advanceddecryption: envoweling
+//advanced decryption: envoweling
 void advancedDecrypt(char nonVowels[], char vowels[]){
     
     char decrypted[strlen(vowels) + (strlen(nonVowels)/2)];
@@ -257,7 +261,7 @@ void setupTCP(){
     printf("Listening socket created.\n");
 
     //binding address w/ listening socket
-    int bindStatus;
+    int bindStatus;     
     bindStatus= bind(listeningSocket, (struct sockaddr *)&address, sizeof(address));
     if(bindStatus == -1){
         perror("Binding failed!");

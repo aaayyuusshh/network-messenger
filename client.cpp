@@ -11,11 +11,17 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
+/*
+CREDITS: 
+    - Bardia's tutorial notes + client/server code snippets
+    - https://en.cppreference.com/w/ 
+*/
+
 /* GLOBAL VARIABLES & CONSTANTS */
 
 const char *SERVER_IP = "127.0.0.1";        //local host
-// const char *SERVER_IP = "136.159.5.25";  //csx.cpsc.ucalgary.ca
-// const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
+//const char *SERVERSERVER_IP = "136.159.5.25";  //csx.cpsc.ucalgary.ca
+//const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
 
 struct sockaddr_in udpServerAddr;
 int clientSocket, udpSocket;
