@@ -1,7 +1,7 @@
 # network-encrypter
 👋 Welcome to a client/server (network) based text encryptor built in C++ through socket programming.
 
-**Quick Description**
+**Description**
   - Client has an option to encrypt or decrypt a message.
   - Encrypt: Client can send server a message to encrypt & the server will send client the encrypted message in 2 parts(vowels & non vowels) over the network.
   - Decrypt: Client can send server a valid encrypted message in 2 parts (vowels & non vowels) & the server will send client the decrypted message in 1 part over the network.
@@ -18,7 +18,7 @@
  
  **Sample Run**
  
-<img width="1423" alt="img" src="https://user-images.githubusercontent.com/80851741/155859032-ebed115d-10f1-4231-99d5-245ee42fe8a4.png">
+<img width="1423" alt="img" src="https://user-images.githubusercontent.com/80851741/155859349-90ba5ce7-64d2-40e4-b3c1-8abb449bf21c.png">
 
 **What I Learnt**
   - Socket Programming Concepts.
