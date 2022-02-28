@@ -107,7 +107,8 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
 }
 
 //advanced encryption: encryption
-void complexEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
+void complexEncrypt(char clientMessage[]){ 
+    printf("Hi");
     printf("-- COMPLEX ENCRYPTION ALGORITHM TRIGGERED --\n");
     int length= strlen(clientMessage);
 
@@ -340,7 +341,7 @@ int main(){
 
             char toDevowel[1000]="";
             recv(serverSocket, toDevowel, 1000, 0);
-            printf("Client's message to devowel: \'%s\'\n", toDevowel);
+            printf("Client's message to encrypt: \'%s\'\n", toDevowel);
 
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);

@@ -81,7 +81,7 @@ int main(){
         //recieve user input regarding options
         char sendMsg[1000];
         printf("\nPlease choose from the following selections:\n");
-        printf("(1) Devowel?\n(2) Envowel?\n(3) Quit?\n");
+        printf("(1) Encrypt?\n(2) Decrypt?\n(3) Quit?\n");
         printf("Enter your desired menu selection: ");
         fgets(sendMsg, sizeof(sendMsg), stdin);
         sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
@@ -97,7 +97,7 @@ int main(){
        //1= encrypt (devowel)
         if(option == 1){
             char toDevowel[1000];
-            printf("Enter your message to devowel: ");
+            printf("Enter your message to encrypt: ");
             fgets(toDevowel, sizeof(toDevowel), stdin);
             toDevowel[strcspn(toDevowel, "\n")] = 0;
 
@@ -130,7 +130,7 @@ int main(){
 
             //get and send non-vowels 
             char nonVowels[1000];
-            printf("Enter the non-vowels:");
+            printf("Enter the non-vowels: ");
             fgets(nonVowels, sizeof(nonVowels), stdin);
             nonVowels[strcspn(nonVowels, "\n")] = 0;
 
@@ -139,7 +139,7 @@ int main(){
 
             //get and send vowels
             char vowels[1000];
-            printf("Enter the vowels:");
+            printf("Enter the vowels: ");
             fgets(vowels, sizeof(vowels), stdin);
             vowels[strcspn(vowels, "\n")] = 0;
 
