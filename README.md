@@ -16,12 +16,17 @@
   - To compile client code, type **g++ -o c client.cpp** in terminal 2 & type **./c** to run.
   - Server must be running before a client can run.
  
- **Sample Run**
- 
-<img width="1423" alt="img" src="https://user-images.githubusercontent.com/80851741/155859349-90ba5ce7-64d2-40e4-b3c1-8abb449bf21c.png">
+ **Sample Run 1**
+<img width="1421" alt="Screen Shot 2022-03-05 at 7 35 34 PM" src="https://user-images.githubusercontent.com/80851741/156907067-0398f52a-f73b-448c-bea2-c6bc6b515f71.png">
+
+ **Sample Run 2: Can we sucesfully encrypt & decrypt a long paragraph?**
+ <img width="1423" alt="Screen Shot 2022-03-05 at 7 50 28 PM" src="https://user-images.githubusercontent.com/80851741/156907380-dc0c642a-b54d-4da1-9b13-366403a5afb1.png">
 
 **What I Learnt**
   - Socket Programming Concepts.
+  - Networking protocols of the Internet Protocol Stack.
   - Data transmission over a network through TCP & UDP protocols.
   - C++ Programming Basics.
   - Multiprocessing through fork() system call.
+
+*Contact me if you would like me to demonstrate how to run this program over the internet and not just locally.*
