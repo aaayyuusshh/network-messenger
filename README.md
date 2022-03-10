@@ -5,7 +5,7 @@
   - Client has an option to encrypt or decrypt a message.
   - Encrypt: Client can send server a message to encrypt & the server will send client the encrypted message in 2 parts(vowels & non vowels) over the network.
   - Decrypt: Client can send server a valid encrypted message in 2 parts (vowels & non vowels) & the server will send client the decrypted message in 1 part over the network.
-  - **NOTE:** Client/Server communication can be done in one local machine or over the internet, where the server and client are configured in different machines.
+  - **NOTE:** Client/Server communication can be done in one **local machine** or over the **internet**, where the server and client are configured in different machines.
   - In process: Program supports multiple concurrent client connections through multiprocessing.
 
 
