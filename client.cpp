@@ -19,9 +19,9 @@ CREDITS:
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
-const char *SERVER_IP = "127.0.0.1";        //local host
+//const char *SERVER_IP = "127.0.0.1";        //local host
 //const char *SERVERSERVER_IP = "136.159.5.25";  //csx.cpsc.ucalgary.ca
-//const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
+const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
 
 struct sockaddr_in udpServerAddr;
 int clientSocket, udpSocket;
