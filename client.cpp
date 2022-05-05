@@ -155,7 +155,9 @@ int main(){
         
         //messenger option
         else if(option == 3){
+            printf("\nMESSENGER (:\n");
 
+            //parsing & sending message to server
             char sendToServer[1000];
             printf("Send to server: ");
             fgets(sendToServer, sizeof(sendToServer), stdin);
@@ -163,7 +165,11 @@ int main(){
 
             //send message from client to server using TCP
             send(clientSocket, sendToServer, strlen(sendToServer), 0);
-            
+
+            char recievedFromServer[1000] = "";
+            recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
+            printf("From Server: %s\n", recievedFromServer);
+
         }
 
         //quit option

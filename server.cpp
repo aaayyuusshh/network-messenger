@@ -381,21 +381,29 @@ int main(){
                 advancedDecrypt(nonVowels, vowels);
 
             } 
-
-           
         }
          
         //messenger option
         else if(option == 3){
-            printf("IN OPTION 3....\n");
+            printf("MESSENGER (:\n");
 
+            //recieving message from client
             char recievedFromClient[1000] = "";
             recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
-            printf("From Client: %s\n", recievedFromClient);            
-           
+            printf("From Client: %s\n", recievedFromClient);  
 
+            //parsing and sending message to client
+            char sendToClient[1000];
+            printf("Send to Client: ");
+            fgets(sendToClient, sizeof(sendToClient), stdin);
+            sendToClient[strcspn(sendToClient, "\n")] = 0;
+
+            //send message from server to client using TCP... not using UDP atm for messaging
+            send(serverSocket, sendToClient, sizeof(sendToClient), 0);         
+        
         }
 
+        //quit option
         else{
             printf("Server Ending...");
             close(serverSocket);
