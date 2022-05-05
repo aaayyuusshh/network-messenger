@@ -357,7 +357,7 @@ int main(){
         }
 
         //2= decrypt (envowel)
-        else if(option ==2){
+        else if(option == 2){
 
             char nonVowels[1000]="";
             char vowels[1000]="";
@@ -383,6 +383,17 @@ int main(){
             } 
 
            
+        }
+         
+        //messenger option
+        else if(option == 3){
+            printf("IN OPTION 3....\n");
+
+            char recievedFromClient[1000] = "";
+            recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
+            printf("From Client: %s\n", recievedFromClient);            
+           
+
         }
 
         else{

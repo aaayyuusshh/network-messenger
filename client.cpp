@@ -19,9 +19,9 @@ CREDITS:
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
-//const char *SERVER_IP = "127.0.0.1";        //local host
+const char *SERVER_IP = "127.0.0.1";        //local host
 //const char *SERVERSERVER_IP = "136.159.5.25";  //csx.cpsc.ucalgary.ca
-const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
+//const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
 
 struct sockaddr_in udpServerAddr;
 int clientSocket, udpSocket;
@@ -81,7 +81,7 @@ int main(){
         //recieve user input regarding options
         char sendMsg[1000];
         printf("\nPlease choose from the following selections:\n");
-        printf("(1) Encrypt?\n(2) Decrypt?\n(3) Quit?\n");
+        printf("(1) Encrypt?\n(2) Decrypt?\n(3) Messaging?\n(4) Quit?\n");
         printf("Enter your desired menu selection: ");
         fgets(sendMsg, sizeof(sendMsg), stdin);
         sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
@@ -134,7 +134,7 @@ int main(){
             fgets(nonVowels, sizeof(nonVowels), stdin);
             nonVowels[strcspn(nonVowels, "\n")] = 0;
 
-            //send non-vowels through UDP
+            //send non-vowels through TCP
             send(clientSocket, nonVowels, strlen(nonVowels),0);
 
             //get and send vowels
@@ -151,10 +151,22 @@ int main(){
             char decryptedMsg[1000]="";
             recv(clientSocket,decryptedMsg , sizeof(decryptedMsg),0 );
             printf("Server sent %lu bytes of decrypted message using TCP: \'%s\'\n",strlen(decryptedMsg),decryptedMsg);
-        
-
         }
         
+        //messenger option
+        else if(option == 3){
+
+            char sendToServer[1000];
+            printf("Send to server: ");
+            fgets(sendToServer, sizeof(sendToServer), stdin);
+            sendToServer[strcspn(sendToServer, "\n")] = 0;
+
+            //send message from client to server using TCP
+            send(clientSocket, sendToServer, strlen(sendToServer), 0);
+            
+        }
+
+        //quit option
         else {
             printf("Quitting Program...");
             close(clientSocket);
