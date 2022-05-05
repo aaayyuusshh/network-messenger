@@ -99,7 +99,7 @@ int main(){
        //1= encrypt (devowel)
         if(option == 1){
             char toDevowel[1000];
-            printf("Enter your message to encrypt: ");
+            printf("𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: ");
             fgets(toDevowel, sizeof(toDevowel), stdin);
             toDevowel[strcspn(toDevowel, "\n")] = 0;
 
@@ -116,7 +116,7 @@ int main(){
             
             //recieve non vowels through tcp
             recv(clientSocket, recieveMsg, 1000,0 );
-            printf("Server sent %lu bytes of non-vowels using TCP: \'%s\'\n", strlen(recieveMsg),recieveMsg);
+            printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿: \'%s\'\n", strlen(recieveMsg),recieveMsg);
 
             bzero(recieveMsg, sizeof(recieveMsg));
 
@@ -124,7 +124,7 @@ int main(){
             /* recv(clientSocket, recieveMsg, 1000,0 ); */ //TCP way
             int len;
             recvfrom(udpSocket, (char *)recieveMsg, 1000, 0, (struct sockaddr *)&udpServerAddr, (socklen_t *)&len);
-            printf("Server sent %lu bytes of vowels using UDP:     \'%s\'\n", strlen(recieveMsg), recieveMsg);
+            printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿:     \'%s\'\n", strlen(recieveMsg), recieveMsg);
         }
 
        //2= decrypt (envowel)
@@ -132,7 +132,7 @@ int main(){
 
             //get and send non-vowels 
             char nonVowels[1000];
-            printf("Enter the non-vowels: ");
+            printf("𝙴𝚗𝚝𝚎𝚛 𝚝𝚑𝚎 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜: ");
             fgets(nonVowels, sizeof(nonVowels), stdin);
             nonVowels[strcspn(nonVowels, "\n")] = 0;
 
@@ -141,7 +141,7 @@ int main(){
 
             //get and send vowels
             char vowels[1000];
-            printf("Enter the vowels: ");
+            printf("𝙴𝚗𝚝𝚎𝚛 𝚝𝚑𝚎 𝚟𝚘𝚠𝚎𝚕𝚜: ");
             fgets(vowels, sizeof(vowels), stdin);
             vowels[strcspn(vowels, "\n")] = 0;
 
@@ -152,7 +152,7 @@ int main(){
             //recieve decrypted message from server
             char decryptedMsg[1000]="";
             recv(clientSocket,decryptedMsg , sizeof(decryptedMsg),0 );
-            printf("Server sent %lu bytes of decrypted message using TCP: \'%s\'\n",strlen(decryptedMsg),decryptedMsg);
+            printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚍𝚎𝚌𝚛𝚢𝚙𝚝𝚎𝚍 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿: \'%s\'\n",strlen(decryptedMsg),decryptedMsg);
         }
         
         //messenger option
@@ -169,7 +169,7 @@ int main(){
 
                 //parsing & sending message to server
                 char sendToServer[1000];
-                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝚜𝚎𝚛𝚟𝚎𝚛: ");
+                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝚜𝚎𝚛𝚟𝚎𝚛 ⇒ ");
                 fgets(sendToServer, sizeof(sendToServer), stdin);
                 sendToServer[strcspn(sendToServer, "\n")] = 0;
 
@@ -183,14 +183,14 @@ int main(){
 
                 char recievedFromServer[1000] = "";
                 recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
-                printf("𝙵𝚛𝚘𝚖 𝚂𝚎𝚛𝚟𝚎𝚛: %s\n", recievedFromServer);
+                printf("𝙵𝚛𝚘𝚖 𝚂𝚎𝚛𝚟𝚎𝚛 ⇐ %s\n", recievedFromServer);
 
             }
         }
 
         //quit option
         else {
-            printf("Quitting Program...");
+            printf("𝘾𝙇𝙄𝙀𝙉𝙏 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 ! (•◡•) / \n");
             close(clientSocket);
             break;
         }

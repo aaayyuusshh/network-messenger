@@ -60,10 +60,9 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     vowels[length] = '\0';
     nonVowels[length]= '\0';
 
-    printf("Sent %lu bytes of non-vowels \'%s\' using TCP\n", strlen(nonVowels), nonVowels);
-    printf("Sent %lu bytes of vowels \'%s\' using UDP\n", strlen(vowels), vowels);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿\n", strlen(nonVowels), nonVowels);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿\n", strlen(vowels), vowels);
    
-
     //recieving dummy message through UDP for client address purposes
     char buffer[1000];
     bzero(buffer, 1000);
@@ -99,7 +98,7 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
         }
     }
     decrypted[length] ='\0';
-    printf("Sent %lu bytes of decrypted message \'%s\' using TCP\n", strlen(decrypted),decrypted);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚍𝚎𝚌𝚛𝚢𝚙𝚝𝚎𝚍 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿\n", strlen(decrypted),decrypted);
 
     //send decrypted message to server
     send(serverSocket, decrypted, strlen(decrypted), 0);
@@ -108,7 +107,6 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
 
 //advanced encryption: encryption
 void complexEncrypt(char clientMessage[]){ 
-    printf("Hi");
     printf("-- COMPLEX ENCRYPTION ALGORITHM TRIGGERED --\n");
     int length= strlen(clientMessage);
 
@@ -133,8 +131,8 @@ void complexEncrypt(char clientMessage[]){
     vowels[length] = '\0';
     nonVowels[length]= '\0';
 
-    printf("Sent %lu bytes of non-vowels \'%s\' using TCP\n", strlen(nonVowels), nonVowels);
-    printf("Sent %lu bytes of vowels \'%s\' using UDP\n", strlen(vowels), vowels);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿\n", strlen(nonVowels), nonVowels);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿\n", strlen(vowels), vowels);
    
 
     //recieving dummy message through UDP for client address purposes
@@ -195,8 +193,8 @@ void advancedEncrypt(char clientMessage[]){
     vowels[vowelIndex]= '\0';
     nonVowels[nonVowelIndex]='\0';
     
-    printf("Sent %lu bytes of non-vowels \'%s\' using TCP\n", strlen(nonVowels), nonVowels);
-    printf("Sent %lu bytes of vowels \'%s\' using UDP\n", strlen(vowels), vowels);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿\n", strlen(nonVowels), nonVowels);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿\n", strlen(vowels), vowels);
    
 
     //recieving dummy message through UDP for client address purposes
@@ -240,7 +238,7 @@ void advancedDecrypt(char nonVowels2[], char vowels2[]){
 
     decrypted[decryptedIndex] ='\0';
 
-    printf("Sent %lu bytes of decrypted message \'%s\' using TCP\n", strlen(decrypted),decrypted);
+    printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚍𝚎𝚌𝚛𝚢𝚙𝚝𝚎𝚍 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿\n", strlen(decrypted),decrypted);
    
     //send decrypted message to server
     send(serverSocket, decrypted, strlen(decrypted), 0);
@@ -262,7 +260,7 @@ void setupTCP(){
     if(listeningSocket == -1){
         perror("Listening socket creation failed!");
     }
-    printf("Listening socket created.\n");
+    //printf("Listening socket created.\n");
 
     //binding address w/ listening socket
     int bindStatus;     
@@ -270,7 +268,7 @@ void setupTCP(){
     if(bindStatus == -1){
         perror("Binding failed!");
     }
-    printf("Binding successful.\n");
+    //printf("Binding successful.\n");
 
     //server listening for clients
     int listenStatus;
@@ -278,15 +276,15 @@ void setupTCP(){
     if(listenStatus == -1){
         perror("Listening failed!");
     }
-
-    printf("Waiting(Listening) for clients.....\n");
+    
+    printf("𝗟𝗶𝘀𝘁𝗲𝗻𝗶𝗻𝗴 𝗳𝗼𝗿 𝗰𝗹𝗶𝗲𝗻𝘁𝘀...\n");
 
     //accept an incoming client connection
     serverSocket = accept(listeningSocket, NULL, NULL);
     if(serverSocket == -1){
         perror("accept() call failed!");
     }
-    printf("TCP Connection Accepted!\n");
+    printf("𝗧𝗖𝗣 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗼𝗻 𝗔𝗰𝗰𝗲𝗽𝘁𝗲𝗱 !\n");
     
 }
 
@@ -298,7 +296,7 @@ void setupUDP(){
         perror("UPD socket creation failed!\n");
         exit(EXIT_FAILURE);
     }
-    printf("UDP socket created.\n");
+    //printf("UDP socket created.\n");
 
     //memset to 0s
     memset(&udpServerAddr, 0, sizeof(udpServerAddr));
@@ -318,10 +316,10 @@ void setupUDP(){
 }
 
 int main(){
-
-    printf("\n~~ WELCOME TO THE SUPER SECRET VOWELIZER SERVER shhh... ~~\n");
-    printf("\n");
     
+    printf("\n-----------------------------------------");
+    printf("\n𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉\n"); 
+    printf("-----------------------------------------\n");
 
     setupTCP();
     setupUDP();
@@ -332,7 +330,7 @@ int main(){
     //recieving clients option: 1, 2 or 3
 
     while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
-        printf("\nClient picked menu option: %s\n", recieveMsg);
+        printf("\n𝙲𝚕𝚒𝚎𝚗𝚝 𝚙𝚒𝚌𝚔𝚎𝚍 𝚖𝚎𝚗𝚞 𝚘𝚙𝚝𝚒𝚘𝚗: %s\n\n", recieveMsg);
 
         int option = recieveMsg[0] - '0';
 
@@ -341,7 +339,7 @@ int main(){
 
             char toDevowel[1000]="";
             recv(serverSocket, toDevowel, 1000, 0);
-            printf("Client's message to encrypt: \'%s\'\n", toDevowel);
+            printf("𝙲𝚕𝚒𝚎𝚗𝚝'𝚜 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: \'%s\'\n", toDevowel);
 
             // send(serverSocket, "vowels", strlen("vowels"), 0);
             // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
@@ -364,14 +362,14 @@ int main(){
           
             //recieve nonvowels from client
             recv(serverSocket, nonVowels, 1000, 0);
-            printf("Non Vowels from client: \'%s\'\n", nonVowels);
+            printf("𝙽𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝:  \'%s\'\n", nonVowels);
 
             usleep(20);
 
             //recieve vowels from client (through UPD)
             /* recv(serverSocket, vowels, 1000, 0);*/ //TCP WAY
             recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
-            printf("Vowels from client: \'%s\'\n", vowels);
+            printf("𝚅𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝: \'%s\'\n", vowels);
 
              if(ENCODING_TYPE_FLAG == 0){
                 simpleDecrypt(nonVowels, vowels);
@@ -385,22 +383,27 @@ int main(){
          
         //messenger option
         else if(option == 3){
-            printf("MESSENGER (:\n");
+            printf("ʕ•́ᴥ•̀ʔっ\n ");
+            sleep(1);
+            printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
+            sleep(1);
+            printf("                                  ʕ•́ᴥ•̀ʔっ\n");
+            sleep(1);
 
             while(1){
                 //recieving message from client
                 char recievedFromClient[1000] = "";
                 recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
-                printf("From Client: %s\n", recievedFromClient);  
+                printf("𝙵𝚛𝚘𝚖 𝙲𝚕𝚒𝚎𝚗𝚝 ⇐ %s\n", recievedFromClient);  
 
                 if(strcmp(recievedFromClient, "quit") == 0){
-                    printf("Quitting Messenger..\n");
+                    printf("\n𝙻𝙴𝙵𝚃 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ...\n");
                     break;
                 }
 
                 //parsing and sending message to client
                 char sendToClient[1000];
-                printf("Send to Client: ");
+                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝙲𝚕𝚒𝚎𝚗𝚝 ⇒ ");
                 fgets(sendToClient, sizeof(sendToClient), stdin);
                 sendToClient[strcspn(sendToClient, "\n")] = 0;
 
@@ -413,7 +416,7 @@ int main(){
 
         //quit option
         else{
-            printf("Server Ending...");
+            printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 (◑‿◑)ɔ \n");
             close(serverSocket);
         }
 
