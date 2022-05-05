@@ -393,8 +393,8 @@ int main(){
                 recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
                 printf("From Client: %s\n", recievedFromClient);  
 
-                if(recievedFromClient == "quit"){
-                    printf("HEREEEEE\n");
+                if(strcmp(recievedFromClient, "quit") == 0){
+                    printf("Quitting Messenger..\n");
                     break;
                 }
 

@@ -71,8 +71,9 @@ void setupUDP(){
 
 int main(){
 
-    printf("\n~~ WELCOME! I AM A CLIENT FOR THE VOWELIZER ~~ \n");
-
+    printf("\n-----------------------------------------\n");
+    printf("𝘾𝙇𝙄𝙀𝙉𝙏 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉\n"); 
+    printf("-----------------------------------------\n");
     setupTCP();
     setupUDP();
 
@@ -80,12 +81,13 @@ int main(){
     while(1){
         //recieve user input regarding options
         char sendMsg[1000];
-        printf("\nPlease choose from the following selections:\n");
-        printf("(1) Encrypt?\n(2) Decrypt?\n(3) Messaging?\n(4) Quit?\n");
-        printf("Enter your desired menu selection: ");
+        printf("\n𝙿𝚕𝚎𝚊𝚜𝚎 𝚌𝚑𝚘𝚘𝚜𝚎 𝚏𝚛𝚘𝚖 𝚝𝚑𝚎 𝚏𝚘𝚕𝚕𝚘𝚠𝚒𝚗𝚐 𝚜𝚎𝚕𝚎𝚌𝚝𝚒𝚘𝚗𝚜:\n");
+        printf("(1) ᴇɴᴄʀʏᴘᴛ?\n(2) ᴅᴇᴄʀʏᴘᴛ?\n(3) ᴍᴇꜱꜱᴀɢɪɴɢ?\n(4) Qᴜɪᴛ?\n\n");
+        printf("𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚍𝚎𝚜𝚒𝚛𝚎𝚍 𝚖𝚎𝚗𝚞 𝚜𝚎𝚕𝚎𝚌𝚝𝚒𝚘𝚗: ");
         fgets(sendMsg, sizeof(sendMsg), stdin);
         sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
         int option = sendMsg[0] - '0';
+        printf("\n");
 
         //send desired user option to client
         int sendStatus= send(clientSocket, sendMsg, strlen(sendMsg), 0);
@@ -155,33 +157,35 @@ int main(){
         
         //messenger option
         else if(option == 3){
-            printf("\nMESSENGER (:\n");
-            bool quitMessenger = false;
+
+            printf("ʕ•́ᴥ•̀ʔっ\n ");
+            sleep(1);
+            printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
+            sleep(1);
+            printf("                                  ʕ•́ᴥ•̀ʔっ\n");
+            sleep(1);
 
             while(1){
 
                 //parsing & sending message to server
                 char sendToServer[1000];
-                printf("Send to server: ");
+                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝚜𝚎𝚛𝚟𝚎𝚛: ");
                 fgets(sendToServer, sizeof(sendToServer), stdin);
                 sendToServer[strcspn(sendToServer, "\n")] = 0;
 
                 //send message from client to server using TCP
                 send(clientSocket, sendToServer, strlen(sendToServer), 0);
 
-                if(sendToServer == "quit"){
-                    printf("HEREEEEE\n");
+                if(strcmp(sendToServer, "quit") == 0){
+                    printf("\n𝚀𝚄𝙸𝚃𝚃𝙸𝙽𝙶 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ... 𝙱𝙰𝙲𝙺 𝚃𝙾 𝙼𝙴𝙽𝚄 𝙾𝙿𝚃𝙸𝙾𝙽𝚂\n");
                     break;
                 }
 
                 char recievedFromServer[1000] = "";
                 recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
-                printf("From Server: %s\n", recievedFromServer);
+                printf("𝙵𝚛𝚘𝚖 𝚂𝚎𝚛𝚟𝚎𝚛: %s\n", recievedFromServer);
 
             }
-
-           
-
         }
 
         //quit option
