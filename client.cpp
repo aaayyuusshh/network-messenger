@@ -156,19 +156,31 @@ int main(){
         //messenger option
         else if(option == 3){
             printf("\nMESSENGER (:\n");
+            bool quitMessenger = false;
 
-            //parsing & sending message to server
-            char sendToServer[1000];
-            printf("Send to server: ");
-            fgets(sendToServer, sizeof(sendToServer), stdin);
-            sendToServer[strcspn(sendToServer, "\n")] = 0;
+            while(1){
 
-            //send message from client to server using TCP
-            send(clientSocket, sendToServer, strlen(sendToServer), 0);
+                //parsing & sending message to server
+                char sendToServer[1000];
+                printf("Send to server: ");
+                fgets(sendToServer, sizeof(sendToServer), stdin);
+                sendToServer[strcspn(sendToServer, "\n")] = 0;
 
-            char recievedFromServer[1000] = "";
-            recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
-            printf("From Server: %s\n", recievedFromServer);
+                //send message from client to server using TCP
+                send(clientSocket, sendToServer, strlen(sendToServer), 0);
+
+                if(sendToServer == "quit"){
+                    printf("HEREEEEE\n");
+                    break;
+                }
+
+                char recievedFromServer[1000] = "";
+                recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
+                printf("From Server: %s\n", recievedFromServer);
+
+            }
+
+           
 
         }
 

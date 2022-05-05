@@ -387,20 +387,28 @@ int main(){
         else if(option == 3){
             printf("MESSENGER (:\n");
 
-            //recieving message from client
-            char recievedFromClient[1000] = "";
-            recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
-            printf("From Client: %s\n", recievedFromClient);  
+            while(1){
+                //recieving message from client
+                char recievedFromClient[1000] = "";
+                recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
+                printf("From Client: %s\n", recievedFromClient);  
 
-            //parsing and sending message to client
-            char sendToClient[1000];
-            printf("Send to Client: ");
-            fgets(sendToClient, sizeof(sendToClient), stdin);
-            sendToClient[strcspn(sendToClient, "\n")] = 0;
+                if(recievedFromClient == "quit"){
+                    printf("HEREEEEE\n");
+                    break;
+                }
 
-            //send message from server to client using TCP... not using UDP atm for messaging
-            send(serverSocket, sendToClient, sizeof(sendToClient), 0);         
-        
+                //parsing and sending message to client
+                char sendToClient[1000];
+                printf("Send to Client: ");
+                fgets(sendToClient, sizeof(sendToClient), stdin);
+                sendToClient[strcspn(sendToClient, "\n")] = 0;
+
+                //send message from server to client using TCP... not using UDP atm for messaging
+                send(serverSocket, sendToClient, sizeof(sendToClient), 0);         
+    
+            }
+           
         }
 
         //quit option
