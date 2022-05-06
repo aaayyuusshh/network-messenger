@@ -25,6 +25,73 @@ int serverSocket;
 int udpSocket;
 struct sockaddr_in udpServerAddr, udpClientAddr;
 
+void setupTCP(){
+
+    //address initialization
+    struct sockaddr_in address;
+    memset(&address,0, sizeof(address));
+    address.sin_family= AF_INET;
+    address.sin_port= htons(8000);
+    address.sin_addr.s_addr= INADDR_ANY;
+
+     //listening socket creation
+   
+    listeningSocket= socket(AF_INET, SOCK_STREAM, 0);
+    if(listeningSocket == -1){
+        perror("Listening socket creation failed!");
+    }
+    //printf("Listening socket created.\n");
+
+    //binding address w/ listening socket
+    int bindStatus;     
+    bindStatus= bind(listeningSocket, (struct sockaddr *)&address, sizeof(address));
+    if(bindStatus == -1){
+        perror("Binding failed!");
+    }
+    //printf("Binding successful.\n");
+
+    //server listening for clients
+    int listenStatus;
+    listenStatus = listen(listeningSocket, 5);
+    if(listenStatus == -1){
+        perror("Listening failed!");
+    }
+     printf("𝙻𝚒𝚜𝚝𝚎𝚗𝚒𝚗𝚐 𝚏𝚘𝚛 𝚌𝚕𝚒𝚎𝚗𝚝𝚜...\n");
+    
+    //accept an incoming client connection
+    serverSocket = accept(listeningSocket, NULL, NULL);
+    if(serverSocket == -1){
+        perror("accept() call failed!");
+    }
+    printf("𝚃𝙲𝙿 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝙰𝚌𝚌𝚎𝚙𝚝𝚎𝚍 !\n"); 
+}
+
+//(NOTE: UDP Is connectionless!)
+void setupUDP(){
+
+    //creating udp socket file descriptor
+    if((udpSocket = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
+        perror("UPD socket creation failed!\n");
+        exit(EXIT_FAILURE);
+    }
+    //printf("UDP socket created.\n");
+
+    //memset to 0s
+    memset(&udpServerAddr, 0, sizeof(udpServerAddr));
+    memset(&udpClientAddr, 0, sizeof(udpClientAddr));
+
+    //address initialization for the UDP server
+    udpServerAddr.sin_family= AF_INET;  
+    udpServerAddr.sin_addr.s_addr = INADDR_ANY;
+    udpServerAddr.sin_port= htons(8000);
+
+    //bind the UDP socket with the UDP server address
+    if(bind(udpSocket, (const struct sockaddr *)&udpServerAddr, sizeof(udpServerAddr)) < 0){
+        printf("UDP binding failed!");
+        exit(EXIT_FAILURE);
+    }
+}
+
 //paramerts: clientMessage[] = letter to devowel that the client sent
 void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     printf("-- SIMPLE ENCRYPTION ALGORITHM TRIGGERED --\n");
@@ -68,7 +135,6 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     //send vowels to client through UDP
     //send(serverSocket, vowels, strlen(vowels), 0); //TCP way
     sendto(udpSocket, vowels, strlen(vowels), 0, (const struct sockaddr *)&udpClientAddr, len);
-
 }
 
 //paramenters: non vowels & vowels the client sent
@@ -93,7 +159,6 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
 
     //send decrypted message to server
     send(serverSocket, decrypted, strlen(decrypted), 0);
-
 }
 
 void complexEncrypt(char clientMessage[]){ 
@@ -138,13 +203,12 @@ void complexEncrypt(char clientMessage[]){
     //send vowels to client through UDP
     //send(serverSocket, vowels, strlen(vowels), 0); //TCP way
     sendto(udpSocket, vowels, strlen(vowels), 0, (const struct sockaddr *)&udpClientAddr, len);
-
 }
 
 void advancedEncrypt(char clientMessage[]){
 
     int length = strlen(clientMessage);
-    
+
     char vowels[length];
     char nonVowels[length];
 
@@ -194,7 +258,6 @@ void advancedEncrypt(char clientMessage[]){
     //send vowels to client through UDP
     //send(serverSocket, vowels, strlen(vowels), 0); //TCP way
     sendto(udpSocket, vowels, strlen(vowels), 0, (const struct sockaddr *)&udpClientAddr, len);
-
 }
 
 //advanced decryption: envoweling
@@ -227,76 +290,6 @@ void advancedDecrypt(char nonVowels2[], char vowels2[]){
     send(serverSocket, decrypted, strlen(decrypted), 0);
 }
 
-//set up tcp socket
-void setupTCP(){
-
-    //address initialization
-    struct sockaddr_in address;
-    memset(&address,0, sizeof(address));
-    address.sin_family= AF_INET;
-    address.sin_port= htons(8000);
-    address.sin_addr.s_addr= INADDR_ANY;
-
-     //listening socket creation
-   
-    listeningSocket= socket(AF_INET, SOCK_STREAM, 0);
-    if(listeningSocket == -1){
-        perror("Listening socket creation failed!");
-    }
-    //printf("Listening socket created.\n");
-
-    //binding address w/ listening socket
-    int bindStatus;     
-    bindStatus= bind(listeningSocket, (struct sockaddr *)&address, sizeof(address));
-    if(bindStatus == -1){
-        perror("Binding failed!");
-    }
-    //printf("Binding successful.\n");
-
-    //server listening for clients
-    int listenStatus;
-    listenStatus = listen(listeningSocket, 5);
-    if(listenStatus == -1){
-        perror("Listening failed!");
-    }
-     printf("𝙻𝚒𝚜𝚝𝚎𝚗𝚒𝚗𝚐 𝚏𝚘𝚛 𝚌𝚕𝚒𝚎𝚗𝚝𝚜...\n");
-    
-    //accept an incoming client connection
-    serverSocket = accept(listeningSocket, NULL, NULL);
-    if(serverSocket == -1){
-        perror("accept() call failed!");
-    }
-    printf("𝚃𝙲𝙿 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝙰𝚌𝚌𝚎𝚙𝚝𝚎𝚍 !\n");
-    
-}
-
-//set up udp socket (NOTE: UDP Is connectionless!)
-void setupUDP(){
-
-    //creating udp socket file descriptor
-    if((udpSocket = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
-        perror("UPD socket creation failed!\n");
-        exit(EXIT_FAILURE);
-    }
-    //printf("UDP socket created.\n");
-
-    //memset to 0s
-    memset(&udpServerAddr, 0, sizeof(udpServerAddr));
-    memset(&udpClientAddr, 0, sizeof(udpClientAddr));
-
-    //address initialization for the UDP server
-    udpServerAddr.sin_family= AF_INET;  
-    udpServerAddr.sin_addr.s_addr = INADDR_ANY;
-    udpServerAddr.sin_port= htons(8000);
-
-    //bind the UDP socket with the UDP server address
-    if(bind(udpSocket, (const struct sockaddr *)&udpServerAddr, sizeof(udpServerAddr)) < 0){
-        printf("UDP binding failed!");
-        exit(EXIT_FAILURE);
-
-    }
-}
-
 void printIntro(){
     
     sleep(1);
@@ -308,6 +301,90 @@ void printIntro(){
     sleep(1);
 }
 
+void printMessengerIntro(){
+
+    sleep(1);
+    printf("..........                       ..........\n\n");
+    sleep(1);
+    printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
+    printf("       𝚃𝚢𝚙𝚎 \"𝚚𝚞𝚒𝚝\" 𝚝𝚘 𝚎𝚗𝚍 𝚜𝚎𝚜𝚜𝚒𝚘𝚗.\n\n");
+    sleep(1);
+    printf("..........                       ..........\n\n");
+    sleep(1);
+}
+
+void messenger(){
+
+    printMessengerIntro();
+
+    while(1){
+        //recieving message from client
+        char recievedFromClient[1000] = "";
+        recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
+        printf("𝙵𝚛𝚘𝚖 𝙲𝚕𝚒𝚎𝚗𝚝 ⇐ %s\n", recievedFromClient);  
+
+        if(strcmp(recievedFromClient, "quit") == 0){
+            printf("\nEXITED 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ...\n");
+            break;
+        }
+
+        //parsing and sending message to client
+        char sendToClient[1000];
+        printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝙲𝚕𝚒𝚎𝚗𝚝 ⇒ ");
+        fgets(sendToClient, sizeof(sendToClient), stdin);
+        sendToClient[strcspn(sendToClient, "\n")] = 0;
+
+        //send message from server to client using TCP... not using UDP atm for messaging
+        send(serverSocket, sendToClient, sizeof(sendToClient), 0);         
+    }
+}
+
+void encryption(){
+    
+    char toDevowel[1000]="";
+    recv(serverSocket, toDevowel, 1000, 0);
+    printf("𝙲𝚕𝚒𝚎𝚗𝚝'𝚜 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: \'%s\'\n", toDevowel);
+
+    // send(serverSocket, "vowels", strlen("vowels"), 0);
+    // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
+
+    if(ENCODING_TYPE_FLAG == 0){
+        simpleEncrypt(toDevowel);
+    }
+    else{
+        advancedEncrypt(toDevowel);
+    } 
+}
+
+void decryption(){
+
+    char nonVowels[1000]="";
+    char vowels[1000]="";
+    
+    //recieve nonvowels from client
+    recv(serverSocket, nonVowels, 1000, 0);
+    printf("𝙽𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝:  \'%s\'\n", nonVowels);
+
+    usleep(20);
+
+    //recieve vowels from client (through UPD)
+    /* recv(serverSocket, vowels, 1000, 0);*/ //TCP WAY
+    recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
+    printf("𝚅𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝: \'%s\'\n", vowels);
+
+        if(ENCODING_TYPE_FLAG == 0){
+        simpleDecrypt(nonVowels, vowels);
+    }
+    else{
+        advancedDecrypt(nonVowels, vowels);
+    } 
+}
+
+void closeSockets(){
+    close(serverSocket);
+    close(listeningSocket);
+}
+
 int main(){
 
     printIntro();
@@ -315,94 +392,27 @@ int main(){
     setupTCP();
     setupUDP();
 
-    /* SEND // RECIEVE MENU OPTIONS AND CALL FUNCTIONS ACCORDINGLY */
     int recieveStatus;
-    char recieveMsg[1000]="";
-    //recieving clients option: 1, 2 or 3
+    char recieveCharOption[1000]="";
 
-    while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
+    //recieving clients option: 1, 2, 3, or 4
+    while((recieveStatus =  recv(serverSocket, recieveCharOption, 1000, 0)) > 0){
 
-        printf("\n𝙲𝚕𝚒𝚎𝚗𝚝 𝚙𝚒𝚌𝚔𝚎𝚍 𝚖𝚎𝚗𝚞 𝚘𝚙𝚝𝚒𝚘𝚗: %s\n\n", recieveMsg);
-        int option = recieveMsg[0] - '0';
+        printf("\n𝙲𝚕𝚒𝚎𝚗𝚝 𝚙𝚒𝚌𝚔𝚎𝚍 𝚖𝚎𝚗𝚞 𝚘𝚙𝚝𝚒𝚘𝚗: %s\n\n", recieveCharOption);
+        int option = atoi(recieveCharOption);
 
-        //messenger option
         if(option == 1){
-
-            sleep(1);
-            printf("..........                       ..........\n\n");
-            sleep(1);
-            printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
-            printf("       𝚃𝚢𝚙𝚎 \"𝚚𝚞𝚒𝚝\" 𝚝𝚘 𝚎𝚗𝚍 𝚜𝚎𝚜𝚜𝚒𝚘𝚗.\n\n");
-            sleep(1);
-            printf("..........                       ..........\n\n");
-            sleep(1);
-
-            while(1){
-                //recieving message from client
-                char recievedFromClient[1000] = "";
-                recv(serverSocket, recievedFromClient, sizeof(recievedFromClient), 0);
-                printf("𝙵𝚛𝚘𝚖 𝙲𝚕𝚒𝚎𝚗𝚝 ⇐ %s\n", recievedFromClient);  
-
-                if(strcmp(recievedFromClient, "quit") == 0){
-                    printf("\nEXITED 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ...\n");
-                    break;
-                }
-
-                //parsing and sending message to client
-                char sendToClient[1000];
-                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝙲𝚕𝚒𝚎𝚗𝚝 ⇒ ");
-                fgets(sendToClient, sizeof(sendToClient), stdin);
-                sendToClient[strcspn(sendToClient, "\n")] = 0;
-
-                //send message from server to client using TCP... not using UDP atm for messaging
-                send(serverSocket, sendToClient, sizeof(sendToClient), 0);         
-            }
+            messenger();  
         }
 
-        //encrypt (devowel)
         else if(option == 2){
-
-            char toDevowel[1000]="";
-            recv(serverSocket, toDevowel, 1000, 0);
-            printf("𝙲𝚕𝚒𝚎𝚗𝚝'𝚜 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: \'%s\'\n", toDevowel);
-
-            // send(serverSocket, "vowels", strlen("vowels"), 0);
-            // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
-
-            if(ENCODING_TYPE_FLAG == 0){
-                simpleEncrypt(toDevowel);
-            }
-            else{
-                advancedEncrypt(toDevowel);
-            } 
+            encryption();   
         }
 
-        //decrypt (envowel)
         else if(option == 3){
-
-            char nonVowels[1000]="";
-            char vowels[1000]="";
-          
-            //recieve nonvowels from client
-            recv(serverSocket, nonVowels, 1000, 0);
-            printf("𝙽𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝:  \'%s\'\n", nonVowels);
-
-            usleep(20);
-
-            //recieve vowels from client (through UPD)
-            /* recv(serverSocket, vowels, 1000, 0);*/ //TCP WAY
-            recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
-            printf("𝚅𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝: \'%s\'\n", vowels);
-
-             if(ENCODING_TYPE_FLAG == 0){
-                simpleDecrypt(nonVowels, vowels);
-            }
-            else{
-                advancedDecrypt(nonVowels, vowels);
-            } 
+            decryption();
         }
 
-        //quit option
         else{
             printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 (◑‿◑)ɔ ! \n");
             close(serverSocket);
@@ -410,8 +420,7 @@ int main(){
     }
 
     //closing sockets when done
-    close(serverSocket);
-    close(listeningSocket);
+    closeSockets();
 
     return 0;
 }

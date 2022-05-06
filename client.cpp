@@ -114,7 +114,6 @@ void messenger(){
         recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
         printf("𝙵𝚛𝚘𝚖 𝚂𝚎𝚛𝚟𝚎𝚛 ⇐ %s\n", recievedFromServer);
     }
-
 }
 
 void encryption(){
@@ -146,7 +145,6 @@ void encryption(){
     int len;
     recvfrom(udpSocket, (char *)recieveMsg, 1000, 0, (struct sockaddr *)&udpServerAddr, (socklen_t *)&len);
     printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿:     \'%s\'\n", strlen(recieveMsg), recieveMsg);
-
 }
 
 void decryption(){
@@ -174,7 +172,6 @@ void decryption(){
     char decryptedMsg[1000]="";
     recv(clientSocket,decryptedMsg , sizeof(decryptedMsg),0 );
     printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚍𝚎𝚌𝚛𝚢𝚙𝚝𝚎𝚍 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿: \'%s\'\n",strlen(decryptedMsg),decryptedMsg);
-
 }
 
 int getUserInput(){
@@ -197,7 +194,6 @@ int getUserInput(){
     int intOption = atoi(charOption);
     return intOption;
 }
-
 
 int main(){
 
