@@ -6,7 +6,6 @@
 #include<sys/socket.h>
 #include<arpa/inet.h>
 #include<unistd.h>	
-
 #include <stdlib.h>
 #include <sys/types.h>
 #include <netinet/in.h>
@@ -276,15 +275,14 @@ void setupTCP(){
     if(listenStatus == -1){
         perror("Listening failed!");
     }
+     printf("𝙻𝚒𝚜𝚝𝚎𝚗𝚒𝚗𝚐 𝚏𝚘𝚛 𝚌𝚕𝚒𝚎𝚗𝚝𝚜...\n");
     
-    printf("𝗟𝗶𝘀𝘁𝗲𝗻𝗶𝗻𝗴 𝗳𝗼𝗿 𝗰𝗹𝗶𝗲𝗻𝘁𝘀...\n");
-
     //accept an incoming client connection
     serverSocket = accept(listeningSocket, NULL, NULL);
     if(serverSocket == -1){
         perror("accept() call failed!");
     }
-    printf("𝗧𝗖𝗣 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗼𝗻 𝗔𝗰𝗰𝗲𝗽𝘁𝗲𝗱 !\n");
+    printf("𝚃𝙲𝙿 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝙰𝚌𝚌𝚎𝚙𝚝𝚎𝚍 !\n");
     
 }
 
@@ -316,10 +314,16 @@ void setupUDP(){
 }
 
 int main(){
-    
-    printf("\n-----------------------------------------");
-    printf("\n𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉\n"); 
+
+    sleep(1);
+    printf("\n                (◑‿◑)\n\n");
+    sleep(1);
+    // printf("-----------------------------------------\n");
+    // sleep(1);
+    printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉\n"); 
+    sleep(1);
     printf("-----------------------------------------\n");
+    sleep(1);
 
     setupTCP();
     setupUDP();
@@ -335,7 +339,7 @@ int main(){
         int option = recieveMsg[0] - '0';
 
         //1= encrypt (devowel)
-        if(option == 1){
+        if(option == 2){
 
             char toDevowel[1000]="";
             recv(serverSocket, toDevowel, 1000, 0);
@@ -355,7 +359,7 @@ int main(){
         }
 
         //2= decrypt (envowel)
-        else if(option == 2){
+        else if(option == 3){
 
             char nonVowels[1000]="";
             char vowels[1000]="";
@@ -382,12 +386,15 @@ int main(){
         }
          
         //messenger option
-        else if(option == 3){
-            printf("ʕ•́ᴥ•̀ʔっ\n ");
+        else if(option == 1){
+
+            sleep(1);
+            printf("..........                       ..........\n\n");
             sleep(1);
             printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
+            printf("       𝚃𝚢𝚙𝚎 \"𝚚𝚞𝚒𝚝\" 𝚝𝚘 𝚎𝚗𝚍 𝚜𝚎𝚜𝚜𝚒𝚘𝚗.\n\n");
             sleep(1);
-            printf("                                  ʕ•́ᴥ•̀ʔっ\n");
+            printf("..........                       ..........\n\n");
             sleep(1);
 
             while(1){
@@ -397,7 +404,7 @@ int main(){
                 printf("𝙵𝚛𝚘𝚖 𝙲𝚕𝚒𝚎𝚗𝚝 ⇐ %s\n", recievedFromClient);  
 
                 if(strcmp(recievedFromClient, "quit") == 0){
-                    printf("\n𝙻𝙴𝙵𝚃 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ...\n");
+                    printf("\nEXITED 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ...\n");
                     break;
                 }
 
@@ -416,7 +423,7 @@ int main(){
 
         //quit option
         else{
-            printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 (◑‿◑)ɔ \n");
+            printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 (◑‿◑)ɔ ! \n");
             close(serverSocket);
         }
 

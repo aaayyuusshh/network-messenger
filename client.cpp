@@ -6,7 +6,6 @@
 #include<sys/socket.h>
 #include<arpa/inet.h>
 #include<unistd.h>	
-
 #include <stdlib.h>
 #include <sys/types.h>
 #include <netinet/in.h>
@@ -19,9 +18,9 @@ CREDITS:
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
-const char *SERVER_IP = "127.0.0.1";        //local host
-//const char *SERVERSERVER_IP = "136.159.5.25";  //csx.cpsc.ucalgary.ca
-//const char *SERVER_IP = "136.159.5.27";  //csx3.cpsc.ucalgary.ca
+const char *SERVER_IP = "127.0.0.1";                //local host
+//const char *SERVER_IP = "136.159.5.25";           //csx.cpsc.ucalgary.ca (uofc server)
+//const char *SERVER_IP = "136.159.5.27";           //csx3.cpsc.ucalgary.ca (uofc server)
 
 struct sockaddr_in udpServerAddr;
 int clientSocket, udpSocket;
@@ -71,9 +70,14 @@ void setupUDP(){
 
 int main(){
 
-    printf("\n-----------------------------------------\n");
-    printf("𝘾𝙇𝙄𝙀𝙉𝙏 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉\n"); 
+    sleep(1);
+    printf("\n              \\ (•◡•) /\n\n");
+    sleep(1);
+    printf("𝘾𝙇𝙄𝙀𝙉𝙏 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉 \n"); 
+    sleep(1);
     printf("-----------------------------------------\n");
+    sleep(1);
+
     setupTCP();
     setupUDP();
 
@@ -82,7 +86,7 @@ int main(){
         //recieve user input regarding options
         char sendMsg[1000];
         printf("\n𝙿𝚕𝚎𝚊𝚜𝚎 𝚌𝚑𝚘𝚘𝚜𝚎 𝚏𝚛𝚘𝚖 𝚝𝚑𝚎 𝚏𝚘𝚕𝚕𝚘𝚠𝚒𝚗𝚐 𝚜𝚎𝚕𝚎𝚌𝚝𝚒𝚘𝚗𝚜:\n");
-        printf("(1) ᴇɴᴄʀʏᴘᴛ?\n(2) ᴅᴇᴄʀʏᴘᴛ?\n(3) ᴍᴇꜱꜱᴀɢɪɴɢ?\n(4) Qᴜɪᴛ?\n\n");
+        printf("(1) ᴍᴇꜱꜱᴀɢɪɴɢ?\n(2) ᴇɴᴄʀʏᴘᴛ?\n(3) ᴅᴇᴄʀʏᴘᴛ?\n(4) Qᴜɪᴛ?\n\n");
         printf("𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚍𝚎𝚜𝚒𝚛𝚎𝚍 𝚖𝚎𝚗𝚞 𝚜𝚎𝚕𝚎𝚌𝚝𝚒𝚘𝚗: ");
         fgets(sendMsg, sizeof(sendMsg), stdin);
         sendMsg[strcspn(sendMsg, "\n")] = 0; //removes the \n character that fgets adds to sendMsg
@@ -97,7 +101,7 @@ int main(){
         }
 
        //1= encrypt (devowel)
-        if(option == 1){
+        if(option == 2){
             char toDevowel[1000];
             printf("𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: ");
             fgets(toDevowel, sizeof(toDevowel), stdin);
@@ -109,7 +113,7 @@ int main(){
             usleep(10);
 
             //first send jiberrish to server so it can identify the client address to send messages to
-            char *jibb = "For address identification purposes";
+            char jibb[] = "For address identification purposes";
             sendto(udpSocket, (const char *)jibb, strlen(jibb),0, (const struct sockaddr *) &udpServerAddr, sizeof(udpServerAddr));
 
             char recieveMsg[1000]="";
@@ -128,7 +132,7 @@ int main(){
         }
 
        //2= decrypt (envowel)
-        else if(option ==2){
+        else if(option ==3){
 
             //get and send non-vowels 
             char nonVowels[1000];
@@ -156,15 +160,17 @@ int main(){
         }
         
         //messenger option
-        else if(option == 3){
-
-            printf("ʕ•́ᴥ•̀ʔっ\n ");
+        else if(option == 1){
+            
+            sleep(1);
+            printf("..........                       ..........\n\n");
             sleep(1);
             printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
+            printf("       𝚃𝚢𝚙𝚎 \"𝚚𝚞𝚒𝚝\" 𝚝𝚘 𝚎𝚗𝚍 𝚜𝚎𝚜𝚜𝚒𝚘𝚗.\n\n");
             sleep(1);
-            printf("                                  ʕ•́ᴥ•̀ʔっ\n");
+            printf("..........                       ..........\n\n");
             sleep(1);
-
+    
             while(1){
 
                 //parsing & sending message to server
