@@ -12,27 +12,19 @@
 
 /*
 CREDITS: 
-    - Bardia's tutorial notes + client/server code snippets
     - https://en.cppreference.com/w/ 
 */
 
-//reminder: non vowels: TCP, vowels: UDP
-
 /* GLOBAL VARIABLES & CONSTANTS */
 
-//const int ENCODING_TYPE_FLAG = 0;   //0: simple
-const int ENCODING_TYPE_FLAG = 1;     //1: complex
-
-const char *SERVER_IP = "127.0.0.1";    
-// const char *SERVER_IP = "136.159.5.25";
-// const char *SERVER_IP = "136.159.5.27";
+//const int ENCODING_TYPE_FLAG = 0;   //0: simple encryption algo
+const int ENCODING_TYPE_FLAG = 1;     //1: complex encryption algo
 
 int listeningSocket;
 int serverSocket;
 int udpSocket;
 struct sockaddr_in udpServerAddr, udpClientAddr;
 
-//simple encryption: devoweling
 //paramerts: clientMessage[] = letter to devowel that the client sent
 void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
     printf("-- SIMPLE ENCRYPTION ALGORITHM TRIGGERED --\n");
@@ -79,7 +71,7 @@ void simpleEncrypt(char clientMessage[]){ /* SIMPLE ENCRYPTION ALGORITHM */
 
 }
 
-//simple decryption: envoweling
+//paramenters: non vowels & vowels the client sent
 void simpleDecrypt(char nonVowels[], char vowels[]){
     printf("-- SIMPLE DECRYPTION ALGORITHM TRIGGERED --\n");
 
@@ -104,7 +96,6 @@ void simpleDecrypt(char nonVowels[], char vowels[]){
 
 }
 
-//advanced encryption: encryption
 void complexEncrypt(char clientMessage[]){ 
     printf("-- COMPLEX ENCRYPTION ALGORITHM TRIGGERED --\n");
     int length= strlen(clientMessage);
@@ -133,7 +124,6 @@ void complexEncrypt(char clientMessage[]){
     printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿\n", strlen(nonVowels), nonVowels);
     printf("𝚂𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 \'%s\' 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿\n", strlen(vowels), vowels);
    
-
     //recieving dummy message through UDP for client address purposes
     char buffer[1000];
     bzero(buffer, 1000);
@@ -151,16 +141,10 @@ void complexEncrypt(char clientMessage[]){
 
 }
 
-//advanced encryption: devoweling
 void advancedEncrypt(char clientMessage[]){
 
     int length = strlen(clientMessage);
-
-    //for exact memory allocation
-    int vowelCount, nonVowelCount;
-    for(int i=0; i< length; i++){       
-    }
-
+    
     char vowels[length];
     char nonVowels[length];
 
@@ -313,17 +297,20 @@ void setupUDP(){
     }
 }
 
-int main(){
-
+void printIntro(){
+    
     sleep(1);
     printf("\n                (◑‿◑)\n\n");
     sleep(1);
-    // printf("-----------------------------------------\n");
-    // sleep(1);
     printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝙄𝘿𝙀 𝙊𝙁 𝙏𝙃𝙀 𝙉𝙀𝙏𝙒𝙊𝙍𝙆𝙄𝙉𝙂 𝘼𝙋𝙋𝙇𝙄𝘾𝘼𝙏𝙄𝙊𝙉\n"); 
     sleep(1);
     printf("-----------------------------------------\n");
     sleep(1);
+}
+
+int main(){
+
+    printIntro();
 
     setupTCP();
     setupUDP();
@@ -334,59 +321,12 @@ int main(){
     //recieving clients option: 1, 2 or 3
 
     while((recieveStatus =  recv(serverSocket, recieveMsg, 1000, 0)) > 0){
-        printf("\n𝙲𝚕𝚒𝚎𝚗𝚝 𝚙𝚒𝚌𝚔𝚎𝚍 𝚖𝚎𝚗𝚞 𝚘𝚙𝚝𝚒𝚘𝚗: %s\n\n", recieveMsg);
 
+        printf("\n𝙲𝚕𝚒𝚎𝚗𝚝 𝚙𝚒𝚌𝚔𝚎𝚍 𝚖𝚎𝚗𝚞 𝚘𝚙𝚝𝚒𝚘𝚗: %s\n\n", recieveMsg);
         int option = recieveMsg[0] - '0';
 
-        //1= encrypt (devowel)
-        if(option == 2){
-
-            char toDevowel[1000]="";
-            recv(serverSocket, toDevowel, 1000, 0);
-            printf("𝙲𝚕𝚒𝚎𝚗𝚝'𝚜 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: \'%s\'\n", toDevowel);
-
-            // send(serverSocket, "vowels", strlen("vowels"), 0);
-            // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
-
-            if(ENCODING_TYPE_FLAG == 0){
-                simpleEncrypt(toDevowel);
-
-            }
-            else{
-                advancedEncrypt(toDevowel);
-
-            } 
-        }
-
-        //2= decrypt (envowel)
-        else if(option == 3){
-
-            char nonVowels[1000]="";
-            char vowels[1000]="";
-          
-            //recieve nonvowels from client
-            recv(serverSocket, nonVowels, 1000, 0);
-            printf("𝙽𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝:  \'%s\'\n", nonVowels);
-
-            usleep(20);
-
-            //recieve vowels from client (through UPD)
-            /* recv(serverSocket, vowels, 1000, 0);*/ //TCP WAY
-            recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
-            printf("𝚅𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝: \'%s\'\n", vowels);
-
-             if(ENCODING_TYPE_FLAG == 0){
-                simpleDecrypt(nonVowels, vowels);
-
-            }
-            else{
-                advancedDecrypt(nonVowels, vowels);
-
-            } 
-        }
-         
         //messenger option
-        else if(option == 1){
+        if(option == 1){
 
             sleep(1);
             printf("..........                       ..........\n\n");
@@ -416,9 +356,50 @@ int main(){
 
                 //send message from server to client using TCP... not using UDP atm for messaging
                 send(serverSocket, sendToClient, sizeof(sendToClient), 0);         
-    
             }
-           
+        }
+
+        //encrypt (devowel)
+        else if(option == 2){
+
+            char toDevowel[1000]="";
+            recv(serverSocket, toDevowel, 1000, 0);
+            printf("𝙲𝚕𝚒𝚎𝚗𝚝'𝚜 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: \'%s\'\n", toDevowel);
+
+            // send(serverSocket, "vowels", strlen("vowels"), 0);
+            // send(serverSocket, "non-vowels", strlen("non-vowels"), 0);
+
+            if(ENCODING_TYPE_FLAG == 0){
+                simpleEncrypt(toDevowel);
+            }
+            else{
+                advancedEncrypt(toDevowel);
+            } 
+        }
+
+        //decrypt (envowel)
+        else if(option == 3){
+
+            char nonVowels[1000]="";
+            char vowels[1000]="";
+          
+            //recieve nonvowels from client
+            recv(serverSocket, nonVowels, 1000, 0);
+            printf("𝙽𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝:  \'%s\'\n", nonVowels);
+
+            usleep(20);
+
+            //recieve vowels from client (through UPD)
+            /* recv(serverSocket, vowels, 1000, 0);*/ //TCP WAY
+            recvfrom(udpSocket, vowels, 1000, 0, 0, 0);
+            printf("𝚅𝚘𝚠𝚎𝚕𝚜 𝚏𝚛𝚘𝚖 𝚌𝚕𝚒𝚎𝚗𝚝: \'%s\'\n", vowels);
+
+             if(ENCODING_TYPE_FLAG == 0){
+                simpleDecrypt(nonVowels, vowels);
+            }
+            else{
+                advancedDecrypt(nonVowels, vowels);
+            } 
         }
 
         //quit option
@@ -426,7 +407,6 @@ int main(){
             printf("𝙎𝙀𝙍𝙑𝙀𝙍 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 (◑‿◑)ɔ ! \n");
             close(serverSocket);
         }
-
     }
 
     //closing sockets when done

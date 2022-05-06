@@ -12,12 +12,15 @@
 
 /*
 CREDITS: 
-    - Bardia's tutorial notes + client/server code snippets
     - https://en.cppreference.com/w/ 
 */
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
+/**
+ * the SERVER_IP constant determines which machine the server code is running on.
+ * change this constant accordingly based on the IP address of the machine you want the server code to run on.
+ **/
 const char *SERVER_IP = "127.0.0.1";                //local host
 //const char *SERVER_IP = "136.159.5.25";           //csx.cpsc.ucalgary.ca (uofc server)
 //const char *SERVER_IP = "136.159.5.27";           //csx3.cpsc.ucalgary.ca (uofc server)
@@ -58,18 +61,15 @@ void setupUDP(){
     }
     //printf("UDP socket created.\n");
 
-    //memset to 0s
     memset(&udpServerAddr, 0, sizeof(udpServerAddr));
 
     //address initialization for the UDP client
     udpServerAddr.sin_family= AF_INET;  
     udpServerAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
     udpServerAddr.sin_port= htons(8000);
-
 }
 
-int main(){
-
+void printIntro(){
     sleep(1);
     printf("\n              \\ (•◡•) /\n\n");
     sleep(1);
@@ -77,6 +77,15 @@ int main(){
     sleep(1);
     printf("-----------------------------------------\n");
     sleep(1);
+}
+
+void
+
+
+
+int main(){
+
+    printIntro();
 
     setupTCP();
     setupUDP();
@@ -100,8 +109,41 @@ int main(){
             return 1;
         }
 
-       //1= encrypt (devowel)
-        if(option == 2){
+        //messenger option
+        if (option ==1 ){
+            sleep(1);
+            printf("..........                       ..........\n\n");
+            sleep(1);
+            printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
+            printf("       𝚃𝚢𝚙𝚎 \"𝚚𝚞𝚒𝚝\" 𝚝𝚘 𝚎𝚗𝚍 𝚜𝚎𝚜𝚜𝚒𝚘𝚗.\n\n");
+            sleep(1);
+            printf("..........                       ..........\n\n");
+            sleep(1);
+    
+            while(1){
+                //parsing & sending message to server
+                char sendToServer[1000];
+                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝚜𝚎𝚛𝚟𝚎𝚛 ⇒ ");
+                fgets(sendToServer, sizeof(sendToServer), stdin);
+                sendToServer[strcspn(sendToServer, "\n")] = 0;
+
+                //send message from client to server using TCP
+                send(clientSocket, sendToServer, strlen(sendToServer), 0);
+
+                if(strcmp(sendToServer, "quit") == 0){
+                    printf("\n𝚀𝚄𝙸𝚃𝚃𝙸𝙽𝙶 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ... 𝙱𝙰𝙲𝙺 𝚃𝙾 𝙼𝙴𝙽𝚄 𝙾𝙿𝚃𝙸𝙾𝙽𝚂\n");
+                    break;
+                }
+
+                //recieiving message from server 
+                char recievedFromServer[1000] = "";
+                recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
+                printf("𝙵𝚛𝚘𝚖 𝚂𝚎𝚛𝚟𝚎𝚛 ⇐ %s\n", recievedFromServer);
+            }
+        }
+
+        //encrypt
+        else if(option == 2){
             char toDevowel[1000];
             printf("𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚝𝚘 𝚎𝚗𝚌𝚛𝚢𝚙𝚝: ");
             fgets(toDevowel, sizeof(toDevowel), stdin);
@@ -131,9 +173,8 @@ int main(){
             printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚟𝚘𝚠𝚎𝚕𝚜 𝚞𝚜𝚒𝚗𝚐 𝚄𝙳𝙿:     \'%s\'\n", strlen(recieveMsg), recieveMsg);
         }
 
-       //2= decrypt (envowel)
+        //decrypt
         else if(option ==3){
-
             //get and send non-vowels 
             char nonVowels[1000];
             printf("𝙴𝚗𝚝𝚎𝚛 𝚝𝚑𝚎 𝚗𝚘𝚗-𝚟𝚘𝚠𝚎𝚕𝚜: ");
@@ -158,53 +199,16 @@ int main(){
             recv(clientSocket,decryptedMsg , sizeof(decryptedMsg),0 );
             printf("𝚂𝚎𝚛𝚟𝚎𝚛 𝚜𝚎𝚗𝚝 %lu 𝚋𝚢𝚝𝚎𝚜 𝚘𝚏 𝚍𝚎𝚌𝚛𝚢𝚙𝚝𝚎𝚍 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚞𝚜𝚒𝚗𝚐 𝚃𝙲𝙿: \'%s\'\n",strlen(decryptedMsg),decryptedMsg);
         }
-        
-        //messenger option
-        else if(option == 1){
-            
-            sleep(1);
-            printf("..........                       ..........\n\n");
-            sleep(1);
-            printf("   𝘞𝘌𝘓𝘊𝘖𝘔𝘌 𝘛𝘖 𝘛𝘏𝘌 𝘛𝘌𝘙𝘔𝘐𝘕𝘈𝘓 𝘔𝘌𝘚𝘚𝘌𝘕𝘎𝘌𝘙 !\n");
-            printf("       𝚃𝚢𝚙𝚎 \"𝚚𝚞𝚒𝚝\" 𝚝𝚘 𝚎𝚗𝚍 𝚜𝚎𝚜𝚜𝚒𝚘𝚗.\n\n");
-            sleep(1);
-            printf("..........                       ..........\n\n");
-            sleep(1);
     
-            while(1){
-
-                //parsing & sending message to server
-                char sendToServer[1000];
-                printf("𝚂𝚎𝚗𝚍 𝚝𝚘 𝚜𝚎𝚛𝚟𝚎𝚛 ⇒ ");
-                fgets(sendToServer, sizeof(sendToServer), stdin);
-                sendToServer[strcspn(sendToServer, "\n")] = 0;
-
-                //send message from client to server using TCP
-                send(clientSocket, sendToServer, strlen(sendToServer), 0);
-
-                if(strcmp(sendToServer, "quit") == 0){
-                    printf("\n𝚀𝚄𝙸𝚃𝚃𝙸𝙽𝙶 𝙼𝙴𝚂𝚂𝙴𝙽𝙶𝙴𝚁 ... 𝙱𝙰𝙲𝙺 𝚃𝙾 𝙼𝙴𝙽𝚄 𝙾𝙿𝚃𝙸𝙾𝙽𝚂\n");
-                    break;
-                }
-
-                char recievedFromServer[1000] = "";
-                recv(clientSocket, recievedFromServer, sizeof(recievedFromServer), 0);
-                printf("𝙵𝚛𝚘𝚖 𝚂𝚎𝚛𝚟𝚎𝚛 ⇐ %s\n", recievedFromServer);
-
-            }
-        }
-
         //quit option
         else {
             printf("𝘾𝙇𝙄𝙀𝙉𝙏 𝙎𝘼𝙔𝙎 𝘽𝙔𝙀 𝘽𝙔𝙀 ! (•◡•) / \n");
             close(clientSocket);
             break;
         }
-
     }
         
-    close(clientSocket); //close socket
+    close(clientSocket); 
 
     return 0;
 }
-
