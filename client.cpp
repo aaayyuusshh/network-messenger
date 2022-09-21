@@ -1,5 +1,3 @@
-/* CLIENT SIDE CODE */
-
 //Socket programming imports & more!
 #include<stdio.h>
 #include<string.h>
@@ -10,10 +8,6 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
-/*
-CREDITS: 
-    - https://en.cppreference.com/w/ 
-*/
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
@@ -25,8 +19,8 @@ const char *SERVER_IP = "127.0.0.1";                //local host
 //const char *SERVER_IP = "136.159.5.25";           //csx.cpsc.ucalgary.ca (uofc server)
 //const char *SERVER_IP = "136.159.5.27";           //csx3.cpsc.ucalgary.ca (uofc server)
 
-struct sockaddr_in udpServerAddr;
 int clientSocket, udpSocket;
+struct sockaddr_in udpServerAddr;
 
 void setupTCP(){
 
@@ -178,7 +172,7 @@ int getUserInput(){
     //recieve user input regarding options
     char charOption[1000];
     printf("\n𝙿𝚕𝚎𝚊𝚜𝚎 𝚌𝚑𝚘𝚘𝚜𝚎 𝚏𝚛𝚘𝚖 𝚝𝚑𝚎 𝚏𝚘𝚕𝚕𝚘𝚠𝚒𝚗𝚐 𝚜𝚎𝚕𝚎𝚌𝚝𝚒𝚘𝚗𝚜:\n");
-    printf("(1) ᴍᴇꜱꜱᴀɢɪɴɢ?\n(2) ᴇɴᴄʀʏᴘᴛ?\n(3) ᴅᴇᴄʀʏᴘᴛ?\n(4) Qᴜɪᴛ?\n\n");
+    printf("(1) ᴍᴇꜱꜱᴀɢɪɴɢ? (2) ᴇɴᴄʀʏᴘᴛ? (3) ᴅᴇᴄʀʏᴘᴛ? (4) Qᴜɪᴛ?\n\n");
     printf("𝙴𝚗𝚝𝚎𝚛 𝚢𝚘𝚞𝚛 𝚍𝚎𝚜𝚒𝚛𝚎𝚍 𝚖𝚎𝚗𝚞 𝚜𝚎𝚕𝚎𝚌𝚝𝚒𝚘𝚗: ");
     fgets(charOption, sizeof(charOption), stdin);
     charOption[strcspn(charOption, "\n")] = 0; //removes the \n character that fgets adds to charOption

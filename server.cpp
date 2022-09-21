@@ -1,5 +1,3 @@
-/* SERVER SIDE CODE */
-
 //Socket programming imports & more!
 #include<stdio.h>
 #include<string.h>
@@ -9,11 +7,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-
-/*
-CREDITS: 
-    - https://en.cppreference.com/w/ 
-*/
 
 /* GLOBAL VARIABLES & CONSTANTS */
 
@@ -34,8 +27,7 @@ void setupTCP(){
     address.sin_port= htons(8000);
     address.sin_addr.s_addr= INADDR_ANY;
 
-     //listening socket creation
-   
+    //listening socket creation
     listeningSocket= socket(AF_INET, SOCK_STREAM, 0);
     if(listeningSocket == -1){
         perror("Listening socket creation failed!");
@@ -66,7 +58,7 @@ void setupTCP(){
     printf("𝚃𝙲𝙿 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝙰𝚌𝚌𝚎𝚙𝚝𝚎𝚍 !\n"); 
 }
 
-//(NOTE: UDP Is connectionless!)
+//NOTE: UDP Is connectionless!
 void setupUDP(){
 
     //creating udp socket file descriptor
